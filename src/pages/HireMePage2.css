@@ -1,0 +1,416 @@
+.hire-me-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  color: #fff;
+  padding-top: 100px;
+}
+
+/* ===== Main Content Section ===== */
+.hire-me-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  align-items: flex-start;
+}
+
+/* ===== Left: Description Section ===== */
+.hire-description {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  animation: slideInLeft 0.8s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hire-description h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(135deg, #e50914 0%, #ff6b6b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+
+.hire-description .subtitle {
+  font-size: 1.5rem;
+  color: #b3b3b3;
+  margin: 0;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 10px 0;
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #d5d5d5;
+  margin: 0;
+}
+
+/* ===== Right: Photo Slider ===== */
+.hire-slider {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(229, 9, 20, 0.15);
+  animation: slideInRight 0.8s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hire-slider .slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+
+.hire-slider img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4/5;
+}
+
+/* ===== Slick Carousel Styling ===== */
+.slick-dots {
+  bottom: 20px !important;
+}
+
+.slick-dots li button:before {
+  color: #fff !important;
+  opacity: 0.5 !important;
+  font-size: 8px !important;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #e50914 !important;
+  opacity: 1 !important;
+}
+
+.slick-arrow {
+  z-index: 1 !important;
+  width: 45px !important;
+  height: 45px !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.3s ease !important;
+}
+
+.slick-arrow:hover {
+  background: rgba(229, 9, 20, 0.8) !important;
+  transform: scale(1.1);
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #fff !important;
+  font-size: 20px !important;
+}
+
+/* ===== Contact Section ===== */
+.contact-section {
+  padding: 100px 40px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-section h2 {
+  font-size: 2.8rem;
+  margin: 0 0 15px 0;
+  color: #fff;
+  font-weight: 700;
+}
+
+.contact-subtitle {
+  font-size: 1.1rem;
+  color: #b3b3b3;
+  margin-bottom: 50px;
+}
+
+.contact-tiles {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.contact-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 140px;
+  height: 140px;
+  background: rgba(229, 9, 20, 0.08);
+  border: 2px solid #e50914;
+  border-radius: 16px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-tile:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: #e50914;
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.contact-tile:hover {
+  color: #fff;
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(229, 9, 20, 0.4);
+  border-color: #ff6b6b;
+}
+
+.contact-tile:hover:before {
+  left: 0;
+}
+
+.contact-tile svg {
+  font-size: 2.5rem;
+  transition: transform 0.3s ease;
+  color: #fff;
+}
+
+.contact-tile:hover svg {
+  transform: scale(1.2);
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1200px) {
+  .hire-me-content {
+    gap: 50px;
+    padding: 40px 30px;
+  }
+
+  .hire-description h1 {
+    font-size: 3rem;
+  }
+
+  .contact-tile {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hire-me-content {
+    gap: 40px;
+    padding: 40px 20px;
+  }
+
+  .hire-description h1 {
+    font-size: 2.5rem;
+  }
+
+  .hire-description .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hire-me-page {
+    padding-top: 80px;
+  }
+
+  .hire-me-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 30px 20px;
+  }
+
+  .hire-description h1 {
+    font-size: 2rem;
+  }
+
+  .hire-description .subtitle {
+    font-size: 1rem;
+  }
+
+  .about-text p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .skills h3 {
+    font-size: 1.1rem;
+  }
+
+  .skills-list span {
+    font-size: 0.85rem;
+    padding: 8px 14px;
+  }
+
+  .contact-section {
+    padding: 60px 20px;
+  }
+
+  .contact-section h2 {
+    font-size: 2rem;
+  }
+
+  .contact-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .contact-tiles {
+    gap: 20px;
+  }
+
+  .contact-tile {
+    width: 120px;
+    height: 120px;
+    font-size: 0.9rem;
+  }
+
+  .contact-tile svg {
+    font-size: 2rem;
+  }
+
+  .hire-slider {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hire-me-page {
+    padding-top: 80px;
+  }
+
+  .hire-description h1 {
+    font-size: 1.5rem;
+  }
+
+  .hire-description .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .about-text p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .contact-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .contact-tiles {
+    gap: 15px;
+  }
+
+  .contact-tile {
+    width: 100px;
+    height: 100px;
+    font-size: 0.8rem;
+  }
+
+  .contact-tile svg {
+    font-size: 1.5rem;
+  }
+}
+
+/* ===== Bio Section Styling ===== */
+.bio-headline {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 15px 0;
+  line-height: 1.6;
+}
+
+.bio-highlight {
+  font-style: italic;
+  color: #ff6b6b;
+  font-size: 1.05rem;
+  margin: 0 0 20px 0;
+  font-weight: 600;
+}
+
+.bio-link {
+  color: #e50914;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  border-bottom: 1px solid #e50914;
+}
+
+.bio-link:hover {
+  color: #ff6b6b;
+  border-bottom-color: #ff6b6b;
+}
+/* ===== Resume Button ===== */
+.resume-button-container {
+  margin-top: 30px;
+}
+
+.resume-button-container button {
+  font-size: 1rem;
+  padding: 10px 20px;
+}
+
+@media (max-width: 768px) {
+  .resume-button-container {
+    margin-top: 20px;
+  }
+
+  .resume-button-container button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}

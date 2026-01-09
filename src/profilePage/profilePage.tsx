@@ -1,0 +1,43 @@
+import React from "react";
+import { useLocation, useParams } from "react-router-dom";
+import "./ProfilePage.css";
+
+import ProfileBanner from "./ProfileBanner";
+import TopPicksRow from "./TopPicksRow";
+import ContinueWatching from "./ContinueWatching";
+
+type ProfileType = "Recruiter" | "Developer" | "Stalker" | "Adventurer";
+
+const ProfilePage: React.FC = () => {
+  const location = useLocation();
+  const backgroundGif =
+    location.state?.backgroundGif ||
+    "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif"; // Default GIF
+  const { profileName } = useParams<{ profileName: string }>();
+
+  const profile = ["Recruiter", "Developer", "Stalker", "Adventurer"].includes(
+    profileName!
+  )
+    ? (profileName as ProfileType)
+    : "Recruiter";
+
+  return (
+    <>
+      {/* ABOUT / HERO SECTION */}
+      <div
+        className="profile-page"
+        style={{ backgroundImage: `url(${backgroundGif})` }}
+      >
+        <ProfileBanner />
+      </div>
+
+      {/* ✅ WORK EXPERIENCE TIMELINE SECTION */}
+
+      {/* NETFLIX ROWS BELOW */}
+      <TopPicksRow profile={profile} />
+      <ContinueWatching profile={profile} />
+    </>
+  );
+};
+
+export default ProfilePage;
