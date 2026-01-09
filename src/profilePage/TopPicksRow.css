@@ -147,11 +147,12 @@
 
 
 
-.pick-label-subtitle {
-  display: block;              /* second line for special projects */
+.pick-label {
+  display: block;
   font-size: 0.7rem;
-  color: inherit;     /* use the same white as .pick-label */ [web:603][web:604]
+  color: inherit;
 }
+
 
 
 .pick-label:hover {
@@ -247,11 +248,11 @@
 .project-modal-cover {
   width: 100%;
   height: auto;
-  object-fit: contain;        /* show whole image */ [web:444][web:450]
-  object-position: center;    /* keep it centered */ [web:448]
+  object-fit: contain;        /* show whole image */
+  object-position: center;    /* keep it centered */
   display: block;
   margin: 0 auto;
-  margin-bottom: 2rem;   /* bigger gap under image */ [web:453]
+  margin-bottom: 2rem;   /* bigger gap under image */
 }
 
 /* Modal body */
