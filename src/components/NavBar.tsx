@@ -8,7 +8,6 @@ import {
   FaEnvelope,
 } from "react-icons/fa"; // Import icons
 import "./Navbar.css";
-import netflixLogo from "/public/New logo.png";
 import blueImage from "../images/blue.png";
 
 const Navbar: React.FC = () => {
@@ -40,7 +39,7 @@ const Navbar: React.FC = () => {
       <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
         <div className="navbar-left">
           <Link to="/" className="navbar-logo">
-            <img src={netflixLogo} alt="Netflix" />
+           <img src="/Newlogo.png" alt="Netflix Logo" />
           </Link>
           <ul className="navbar-links">
             <li>
@@ -87,7 +86,7 @@ const Navbar: React.FC = () => {
       {/* Sidebar (only visible on mobile) */}
       <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-logo">
-          <img src={netflixLogo} alt="Netflix Logo" />
+          <img src="/Newlogo.png" alt="Netflix Logo" />
         </div>
         <ul>
           <li>
