@@ -140,10 +140,11 @@
 
 .pick-label-single,
 .pick-label-title {
-  white-space: nowrap;        /* never wrap */ [web:595][web:601]
+  white-space: nowrap; /* never wrap */
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 
 
 .pick-label-subtitle {
