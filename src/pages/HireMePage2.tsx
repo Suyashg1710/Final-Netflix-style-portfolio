@@ -12,7 +12,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "./HireMePage2.css";
 
 const HireMePage: React.FC = () => {
-
+const [currentSlide, setCurrentSlide] = useState<number>(0);
 
 
   // Your photos for the slider - UPDATE THESE PATHS
