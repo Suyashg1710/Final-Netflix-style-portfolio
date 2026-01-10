@@ -6,14 +6,14 @@ import {
   FaLinkedin,
   FaEnvelope,
   FaPhone,
-  FaGithub,
 } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./HireMePage2.css";
 
 const HireMePage: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+const [_currentSlide, setCurrentSlide] = useState(0);
+
 
   // Your photos for the slider - UPDATE THESE PATHS
   const photos = [
@@ -101,7 +101,7 @@ const HireMePage: React.FC = () => {
           <Slider {...sliderSettings}>
             {photos.map((photo, index) => (
               <div key={index} className="slide">
-                <img src={photo} alt={`Photo ${index + 1}`} />
+<img src={photo} alt="" />
               </div>
             ))}
           </Slider>
