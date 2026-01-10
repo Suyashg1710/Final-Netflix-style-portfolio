@@ -2,9 +2,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: left;
-background-image: url("/fire-writing.gif");
-  background-size: cover;
-  background-position: center;
+  background: url("/fire-writing.gif") center / cover no-repeat;
   color: #fff;
   position: relative;
   padding-bottom: 0;
