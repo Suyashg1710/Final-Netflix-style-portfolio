@@ -10,9 +10,7 @@ type ProfileType = "Recruiter" | "Developer" | "Stalker" | "Adventurer";
 
 const ProfilePage: React.FC = () => {
   const location = useLocation();
-  const backgroundGif =
-    location.state?.backgroundGif ||
-    "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif"; // Default GIF
+  
   const { profileName } = useParams<{ profileName: string }>();
 
   const profile = ["Recruiter", "Developer", "Stalker", "Adventurer"].includes(
