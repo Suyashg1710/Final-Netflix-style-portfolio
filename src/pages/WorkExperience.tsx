@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
@@ -9,7 +9,6 @@ import { IoSchool as SchoolIcon } from "react-icons/io5";
 import { FaStar as StarIcon } from "react-icons/fa";
 import "./WorkExperience.css";
 import { TimelineItem } from "../types";
-import { getTimeline } from "../queries/getTimeline";
 
 const WorkExperience: React.FC = () => {
   const timeLineData: TimelineItem[] = [
