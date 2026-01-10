@@ -12,7 +12,7 @@ import {
   FaMusic,
   FaBook,
 } from "react-icons/fa";
-import { recruiterProjects, RecruiterProject } from "./projectData";
+import { recruiterProjects, } from "./projectData";
 
 type ProfileType = "Recruiter" | "Developer" | "Stalker" | "Adventurer";
 
