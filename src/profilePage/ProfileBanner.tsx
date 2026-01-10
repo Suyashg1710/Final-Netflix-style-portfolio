@@ -20,8 +20,6 @@ const ProfileBanner: React.FC = () => {
 
   if (!bannerData) return <div>Loading...</div>;
 
-  bannerData?.resumeLink;
-
   const handlePlayClick = () => {
     window.open(
       "https://drive.google.com/file/d/1cwg_DXo3utv6Lm6m1x_fmLj_Flg5VlsF/view?usp=sharing",
