@@ -407,8 +407,6 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
   return (
     <div className="top-picks-row">
       <h2 className="row-title">
-        {profile === "Recruiter"
-          ? "Work So Far"
           : `Today's Top Picks for ${profile}`}
       </h2>
       <div className="card-row">
