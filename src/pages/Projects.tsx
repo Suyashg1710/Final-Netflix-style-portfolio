@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./Projects.css";
 import { Project } from "../types";
 import { getProjects } from "../queries/getProjects";
-import { GrDeploy, GrKubernetes } from "react-icons/gr";
 
 
 
