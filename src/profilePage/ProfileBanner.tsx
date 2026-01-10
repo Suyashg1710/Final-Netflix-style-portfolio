@@ -27,9 +27,6 @@ const ProfileBanner: React.FC = () => {
     );
   };
 
-  const handleLinkedinClick = () => {
-    window.open(bannerData.linkedinLink, "_blank");
-  };
 
   const handleMoreInfoClick = () => {
     navigate("/hire-me-v2"); // ← INSTANT like toggle menu!
