@@ -38,9 +38,10 @@ const ProfileBanner: React.FC = () => {
   };
 
   return (
-    <div 
-      className="profile-banner"
-    >
+    <div
+  className="profile-banner"
+  style={{ backgroundImage: "url(/fire-writing.gif)" }}
+>
       <div className="banner-content">
         <h1 className="banner-headline" id="headline">
           Suyash Gupta, Creative Copywriter
