@@ -40,11 +40,6 @@ const ProfileBanner: React.FC = () => {
   return (
     <div 
       className="profile-banner"
-      style={{ 
-        backgroundImage: `url(${process.env.PUBLIC_URL}/fire-writing.gif)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center"
-      }}
     >
       <div className="banner-content">
         <h1 className="banner-headline" id="headline">
