@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaBriefcase,
-  FaTools,
   FaProjectDiagram,
   FaEnvelope,
 } from "react-icons/fa"; // Import icons
