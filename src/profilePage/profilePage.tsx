@@ -26,7 +26,6 @@ const ProfilePage: React.FC = () => {
       {/* ABOUT / HERO SECTION */}
       <div
         className="profile-page"
-        style={{ backgroundImage: `url(${backgroundGif})` }}
       >
         <ProfileBanner />
       </div>
