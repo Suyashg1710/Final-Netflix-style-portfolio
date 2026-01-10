@@ -9,7 +9,7 @@ import ContinueWatching from "./ContinueWatching";
 type ProfileType = "Recruiter" | "Developer" | "Stalker" | "Adventurer";
 
 const ProfilePage: React.FC = () => {
-  const location = useLocation();
+
   
   const { profileName } = useParams<{ profileName: string }>();
 
