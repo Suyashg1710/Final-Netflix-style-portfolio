@@ -2,7 +2,8 @@
   display: flex;
   align-items: flex-end;
   justify-content: left;
-  background: url("/fire-writing.gif") center / cover no-repeat;
+  background-size: cover;
+  background-position: center;
   color: #fff;
   position: relative;
   padding-bottom: 0;
@@ -108,4 +109,17 @@
       gap: 1rem;
     }
   }
-  
+
+.profile-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/fire-writing.gif");
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
