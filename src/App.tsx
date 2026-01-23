@@ -8,7 +8,6 @@ import WorkExperience from "./pages/WorkExperience";
 import Recommendations from "./pages/Recommendations";
 import Skillsnew from "./pages/Skillsnew";
 import Projects from "./pages/Projects";
-import ContactMe from "./pages/ContactMe";
 import Layout from "./Layout";
 import Music from "./pages/Music";
 import Reading from "./pages/Reading";
@@ -66,14 +65,6 @@ const App: React.FC = () => {
         element={
           <Layout>
             <Projects />
-          </Layout>
-        }
-      />
-      <Route
-        path="/contact-me"
-        element={
-          <Layout>
-            <ContactMe />
           </Layout>
         }
       />

@@ -95,14 +95,15 @@
   justify-content: center;
   align-items: center;
   background: #000;
+  height: 600px;
 }
 
 .hire-slider img {
   width: 100%;
-  height: auto;
+  height: 600px; /* tweak if you want */
   display: block;
   object-fit: cover;
-  aspect-ratio: 4/5;
+  object-position: center top;
 }
 
 /* ===== Slick Carousel Styling ===== */
@@ -326,6 +327,10 @@
   .hire-slider {
     max-width: 100%;
   }
+
+  .hire-slider img {
+    height: 520px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -362,6 +367,10 @@
 
   .contact-tile svg {
     font-size: 1.5rem;
+  }
+
+  .hire-slider img {
+    height: 460px;
   }
 }
 

@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
 import PlayButton from "../components/PlayButton";
-import {
-  FaInstagram,
-  FaLinkedin,
-  FaEnvelope,
-  FaPhone,
-} from "react-icons/fa";
+import { FaInstagram, FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./HireMePage2.css";
 
 const HireMePage: React.FC = () => {
-const [, setCurrentSlide] = useState<number>(0);
-
+  const [, setCurrentSlide] = useState<number>(0);
 
   // Your photos for the slider - UPDATE THESE PATHS
   const photos = [
-    "/your-photo-1.jpg",
-    "/your-photo-2.jpg",
-    "/your-photo-3.jpg",
+    "/HireMe/01.jpeg",
+    "/HireMe/02.jpeg",
+    "/HireMe/03.jpg",
+    "/HireMe/04.jpg",
+    "/HireMe/05.jpeg",
   ];
 
   // Slider settings
@@ -101,7 +97,11 @@ const [, setCurrentSlide] = useState<number>(0);
           <Slider {...sliderSettings}>
             {photos.map((photo, index) => (
               <div key={index} className="slide">
-<img src={photo} alt="" />
+                <img
+                  src={photo}
+                  alt={`Suyash photo ${index + 1}`}
+                  loading="lazy"
+                />
               </div>
             ))}
           </Slider>
