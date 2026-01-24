@@ -99,7 +99,7 @@ const HireMePage: React.FC = () => {
               <div key={index} className="slide">
                 <img
                   src={photo}
-                  alt={`Suyash photo ${index + 1}`}
+                  alt={`Suyash Gupta portrait ${index + 1}`}
                   loading="lazy"
                 />
               </div>
