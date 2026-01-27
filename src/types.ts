@@ -40,16 +40,6 @@ export interface Certification {
   iconName: string;
 }
 
-export interface ContactMe {
-  name: string;
-  title: string;
-  summary: string;
-  companyUniversity: string;
-  linkedinLink: string;
-  email: string;
-  phoneNumber: string;
-}
-
 export interface Skill { 
   name: string;
   category: string;

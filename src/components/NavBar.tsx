@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
       <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
         <div className="navbar-left">
           <Link to="/" className="navbar-logo">
-           <img src="/Newlogo.png" alt="Netflix Logo" />
+            <img src="/Newlogo.png" alt="Netflix Logo" />
           </Link>
           <ul className="navbar-links">
             <li>
@@ -51,10 +51,7 @@ const Navbar: React.FC = () => {
               <Link to="/projects">Projects</Link>
             </li>
             <li>
-              <Link to="/contact-me">Hire Me</Link>
-            </li>
-            <li>
-              <Link to="/hire-me-v2">Hire Me v2</Link>
+              <Link to="/hire-me-v2">Hire Me</Link>
             </li>
           </ul>
         </div>
@@ -104,13 +101,8 @@ const Navbar: React.FC = () => {
             </Link>
           </li>
           <li>
-            <Link to="/contact-me" onClick={closeSidebar}>
-              <FaEnvelope /> Hire Me
-            </Link>
-          </li>
-          <li>
             <Link to="/hire-me-v2" onClick={closeSidebar}>
-              <FaEnvelope /> Hire Me v2
+              <FaEnvelope /> Hire Me
             </Link>
           </li>
         </ul>

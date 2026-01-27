@@ -27,16 +27,24 @@ const ProfileBanner: React.FC = () => {
     );
   };
 
-
   const handleMoreInfoClick = () => {
     navigate("/hire-me-v2"); // ← INSTANT like toggle menu!
   };
 
   return (
-    <div
-  className="profile-banner"
-  style={{ backgroundImage: "url(/fire-writing.gif)" }}
->
+    <div className="profile-banner">
+      {/* BACKGROUND VIDEO */}
+      <video
+        className="banner-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+      >
+        <source src="/BG-video.mp4" type="video/mp4" />
+      </video>
+      {/* CONTENT */}
       <div className="banner-content">
         <h1 className="banner-headline" id="headline">
           Suyash Gupta, Creative Copywriter
@@ -59,8 +67,10 @@ const ProfileBanner: React.FC = () => {
           <br />
           <br />
           Lucky for the world that he is currently his own manager, so reaching
-          out to him isn't a problem. Just <a href="tel:+491781332944">call</a>.
-          Or <a href="mailto:suyashg1710@gmail.com">write</a>.
+          out to him isn't a problem.
+          <br />
+          Just <a href="tel:+491781332944">call</a>. Or{" "}
+          <a href="mailto:suyashg1710@gmail.com">write</a>.
         </p>
 
         <div className="banner-buttons">
