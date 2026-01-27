@@ -5,26 +5,18 @@ import "./ProfilePage.css";
 import ProfileBanner from "./ProfileBanner";
 import TopPicksRow from "./TopPicksRow";
 import ContinueWatching from "./ContinueWatching";
-
-type ProfileType = "Recruiter" | "Developer" | "Stalker" | "Adventurer";
+import type { ProfileType } from "./profileTypes";
 
 const ProfilePage: React.FC = () => {
-
-  
   const { profileName } = useParams<{ profileName: string }>();
 
-  const profile = ["Recruiter", "Developer", "Stalker", "Adventurer"].includes(
-    profileName!
-  )
-    ? (profileName as ProfileType)
-    : "Recruiter";
+  const profile: ProfileType =
+    profileName?.toLowerCase() === "stalker" ? "Stalker" : "Recruiter";
 
   return (
     <>
       {/* ABOUT / HERO SECTION */}
-      <div
-        className="profile-page"
-      >
+      <div className="profile-page">
         <ProfileBanner />
       </div>
 
