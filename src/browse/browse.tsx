@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import blueImage from "../images/blue.png";
 import redImage from "../images/red.png";
-import yellowImage from "../images/yellow.png";
 import "./browse.css";
 
 const Browse: React.FC = () => {
