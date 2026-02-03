@@ -61,7 +61,8 @@ export const recruiterProjects: RecruiterProject[] = [
     title: "Cerave – skin donAItion",
     thumbnail: "/Cerave.png",
     cover: "/Cerave.png",
-    shortDescription: "Launch campaign for Cerave's new hydration range.",
+    shortDescription:
+      "AI can detect cancer, until a tattoo gets in the way. So, we fixed it by creating Skin DonAItion - the world’s first tattooed skin dataset, which teaches medical AI with the help of donated photos from tattooed individuals, ultimately helping to save more lives.",
     team: "Copy: Suyash Gupta · Art: Jane Doe · Strategy: John Doe",
     assets: [
       {
@@ -69,8 +70,6 @@ export const recruiterProjects: RecruiterProject[] = [
         src: "https://player.vimeo.com/video/1075125603?h=9a7bc37fa4",
         title: "Cerave case study",
       },
-      { type: "image", src: "/Cerave.png" },
-      { type: "image", src: "/Cerave.png" },
     ],
   },
   {

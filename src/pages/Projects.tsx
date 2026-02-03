@@ -5,6 +5,8 @@ import { recruiterProjects } from "../profilePage/projectData";
 type RecruiterProject = (typeof recruiterProjects)[number];
 
 const Projects: React.FC = () => {
+  const SHOW_BETWEEN_CLASSES = false;
+
   // 1) Pick the 4 homepage projects you want inside Campaign Thinking
   const campaignHomepageIds = ["postbox-id", "1", "roku", "la-roche-posay"];
 
@@ -27,34 +29,6 @@ const Projects: React.FC = () => {
       team: "—",
       assets: [
         { type: "image", src: "/Postbox.jpg", alt: "Unseen Campaign 1" },
-      ],
-    },
-    {
-      id: "placeholder-2",
-      title: "Unseen Campaign 2",
-      subtitle: "(Placeholder)",
-      multiLineLabel: true,
-      thumbnail: "/Postbox.jpg",
-      cover: "/Postbox.jpg",
-      shortDescription:
-        "Placeholder project. Replace later with the real work.",
-      team: "—",
-      assets: [
-        { type: "image", src: "/Postbox.jpg", alt: "Unseen Campaign 2" },
-      ],
-    },
-    {
-      id: "placeholder-3",
-      title: "Unseen Campaign 3",
-      subtitle: "(Placeholder)",
-      multiLineLabel: true,
-      thumbnail: "/Postbox.jpg",
-      cover: "/Postbox.jpg",
-      shortDescription:
-        "Placeholder project. Replace later with the real work.",
-      team: "—",
-      assets: [
-        { type: "image", src: "/Postbox.jpg", alt: "Unseen Campaign 3" },
       ],
     },
   ];
@@ -80,24 +54,115 @@ const Projects: React.FC = () => {
       thumbnail: "/Patagonia.jpg",
       cover: "/Patagonia.jpg",
       shortDescription:
-        "Placeholder. Replace later with the real Patagonia copy.",
+        "3 different headlines and one body copy for the famous campaign from Patagonia",
       team: "—",
       assets: [
-        { type: "image", src: "/Patagonia.jpg", alt: "Patagonia long copy" },
+        { type: "image", src: "/Patagonia1.jpg", alt: "Patagonia long copy" },
+        { type: "image", src: "/Patagonia2.jpg", alt: "Patagonia long copy" },
+        { type: "image", src: "/Patagonia3.jpg", alt: "Patagonia long copy" },
       ],
     },
     ...(icwProject ? [icwProject] : []),
   ];
 
-  // Refs for horizontal scroll
+  // Short Copies row (tiles + modal content)
+  const shortCopiesRow: RecruiterProject[] = [
+    {
+      id: "short-bmw",
+      title: "BMW",
+      subtitle: "(Internship Work)",
+      multiLineLabel: true,
+      thumbnail: "/bmw.jpeg",
+      cover: "/BMW4.png",
+      shortDescription:
+        "Copies to advertise the Trade-In service from BMW Germany.",
+      team: "—",
+      assets: [
+        { type: "image", src: "/BMW1.png", alt: "BMW" },
+        { type: "image", src: "/BMW2.png", alt: "Placeholder 1" },
+        { type: "image", src: "/BMW3.png", alt: "BMW" },
+      ],
+    },
+    {
+      id: "short-lipton",
+      title: "Lipton",
+      subtitle: "(Agency Work)",
+      multiLineLabel: true,
+      thumbnail: "/Lipton.jpg",
+      cover: "/Lipton.jpg",
+      shortDescription: "Social Media and BAU copies for Lipton Ice Tea India.",
+      team: "—",
+      assets: [
+        { type: "image", src: "/Lipton-budget.jpg", alt: "Lipton cover" },
+        { type: "image", src: "/Lipton2.png", alt: "Placeholder 1" },
+        {
+          type: "image",
+          src: "/Lipton-FriendshipDay.jpg",
+          alt: "Placeholder 1",
+        },
+      ],
+    },
+    {
+      id: "short-suzuki",
+      title: "Suzuki",
+      subtitle: "(Agency work)",
+      multiLineLabel: true,
+      thumbnail: "/Suzuki2.jpg",
+      cover: "/Suzuki2.jpg",
+      shortDescription: "Social Media and BAU copies for Suzuki 2 Wheelers.",
+      team: "—",
+      assets: [
+        { type: "image", src: "/Suzuki1.jpg", alt: "Suzuki" },
+        { type: "image", src: "/Suzuki5.jpg", alt: "Placeholder 1" },
+      ],
+    },
+    {
+      id: "short-headspace",
+      title: "Headspace",
+      subtitle: "(School Work)",
+      multiLineLabel: true,
+      thumbnail: "/Headspace.jpg",
+      cover: "/Headspace.jpg",
+      shortDescription:
+        "Ad Copies for Headspace campaign - Everything's Different.",
+      team: "—",
+      assets: [
+        { type: "image", src: "/Headspace2.jpg", alt: "Headspace" },
+        { type: "image", src: "/Headspace1.jpg", alt: "Placeholder 1" },
+        { type: "image", src: "/Headspace3.jpg", alt: "Placeholder 1" },
+      ],
+    },
+    {
+      id: "short-misc",
+      title: "Miscellaneous Brands",
+      multiLineLabel: true,
+      thumbnail: "/Postbox.jpg",
+      cover: "/Postbox.jpg",
+      shortDescription:
+        "Some ad copies for different brands across my agency years",
+      team: "—",
+      assets: [
+        { type: "image", src: "/Matter1.jpg", alt: "Placeholder 1" },
+        { type: "image", src: "/Matter2.jpg", alt: "Placeholder 2" },
+        { type: "image", src: "/Matter3.jpg", alt: "Placeholder 2" },
+        { type: "image", src: "/Matter4.jpg", alt: "Placeholder 2" },
+        { type: "image", src: "/Simba.jpg", alt: "Placeholder 2" },
+        { type: "image", src: "/Boult1.jpg", alt: "Placeholder 2" },
+        { type: "image", src: "/Boult2.jpg", alt: "Placeholder 2" },
+        { type: "image", src: "/Boult3.jpg", alt: "Placeholder 2" },
+        { type: "image", src: "/Prudential.jpg", alt: "Placeholder 2" },
+      ],
+    },
+  ];
+  // Refs + arrows for horizontal scroll (Campaign Thinking row)
   const scrollRefCampaign = useRef<HTMLDivElement | null>(null);
   const [canScrollLeftCampaign, setCanScrollLeftCampaign] = useState(false);
   const [canScrollRightCampaign, setCanScrollRightCampaign] = useState(false);
 
   const updateScrollArrows = (
     ref: React.RefObject<HTMLDivElement>,
-    setLeft: any,
-    setRight: any
+    setLeft: (val: boolean) => void,
+    setRight: (val: boolean) => void
   ) => {
     const el = ref.current;
     if (!el) return;
@@ -233,38 +298,38 @@ const Projects: React.FC = () => {
 
         <div className="card-row-wrapper">
           <div className="card-row scrollable-card-row">
-            {[
-              { title: "BMW", img: "/bmw.jpeg" },
-              { title: "Lipton", img: "/Lipton.jpg" },
-              { title: "Suzuki", img: "/Suzuki2.jpg" },
-              { title: "Headspace", img: "/Headspace.jpg" },
-              { title: "Miscellaneous Brands", img: "/Postbox.jpg" },
-            ].map((item, index) => (
+            {shortCopiesRow.map((project, index) => (
               <div
-                key={`short-${index}`}
+                key={String(project.id)}
                 className="pick-card"
                 style={{ animationDelay: `${index * 0.08}s` }}
-                onClick={() =>
-                  setActiveProject({
-                    id: `short-${index}`,
-                    title: item.title,
-                    thumbnail: item.img,
-                    cover: item.img,
-                    subtitle: "(Placeholder)",
-                    multiLineLabel: true,
-                    shortDescription:
-                      "Placeholder. We’ll add the real work here later.",
-                    team: "—",
-                    assets: [{ type: "image", src: item.img, alt: item.title }],
-                  })
-                }
+                onClick={() => setActiveProject(project)}
               >
-                <img src={item.img} alt="" className="pick-image" />
+                <img
+                  src={project.thumbnail}
+                  alt={project.title}
+                  className="pick-image"
+                />
 
                 <div className="overlay">
                   <div className="overlay-bottom">
                     <div className="pick-label">
-                      <span className="pick-label-single">{item.title}</span>
+                      {project.multiLineLabel ? (
+                        <>
+                          <span className="pick-label-title">
+                            {project.title}
+                          </span>
+                          {project.subtitle && (
+                            <span className="pick-label-subtitle">
+                              {project.subtitle}
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <span className="pick-label-single">
+                          {project.title}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -322,53 +387,56 @@ const Projects: React.FC = () => {
       </div>
 
       {/* ===================== ROW 4: Between Classes ===================== */}
-      <div className="projects-row">
-        <h2 className="row-title">Between Classes</h2>
+      {SHOW_BETWEEN_CLASSES && (
+        <div className="projects-row">
+          <h2 className="row-title">Between Classes</h2>
 
-        <div className="card-row-wrapper">
-          <div className="card-row scrollable-card-row">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <div
-                key={`student-${index}`}
-                className="pick-card"
-                style={{ animationDelay: `${index * 0.08}s` }}
-                onClick={() =>
-                  setActiveProject({
-                    id: `student-${index}`,
-                    title: `Between Classes ${index + 1}`,
-                    thumbnail: "/Postbox.jpg",
-                    cover: "/Postbox.jpg",
-                    subtitle: "(Placeholder)",
-                    multiLineLabel: true,
-                    shortDescription:
-                      "Placeholder. We’ll add the real student work here later.",
-                    team: "—",
-                    assets: [
-                      {
-                        type: "image",
-                        src: "/Postbox.jpg",
-                        alt: "Student work",
-                      },
-                    ],
-                  })
-                }
-              >
-                <img src="/Postbox.jpg" alt="" className="pick-image" />
+          <div className="card-row-wrapper">
+            <div className="card-row scrollable-card-row">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div
+                  key={`student-${index}`}
+                  className="pick-card"
+                  style={{ animationDelay: `${index * 0.08}s` }}
+                  onClick={() =>
+                    setActiveProject({
+                      id: `student-${index}`,
+                      title: `Between Classes ${index + 1}`,
+                      thumbnail: "/Postbox.jpg",
+                      cover: "/Postbox.jpg",
+                      subtitle: "(Placeholder)",
+                      multiLineLabel: true,
+                      shortDescription:
+                        "Placeholder. We’ll add the real student work here later.",
+                      team: "—",
+                      assets: [
+                        {
+                          type: "image",
+                          src: "/Postbox.jpg",
+                          alt: "Student work",
+                        },
+                      ],
+                    })
+                  }
+                >
+                  <img src="/Postbox.jpg" alt="" className="pick-image" />
 
-                <div className="overlay">
-                  <div className="overlay-bottom">
-                    <div className="pick-label">
-                      <span className="pick-label-single">
-                        Student Work {index + 1}
-                      </span>
+                  <div className="overlay">
+                    <div className="overlay-bottom">
+                      <div className="pick-label">
+                        <span className="pick-label-single">
+                          Student Work {index + 1}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
       {/* ✅ ONE shared modal for ALL rows */}
       {activeProject && (
         <div
