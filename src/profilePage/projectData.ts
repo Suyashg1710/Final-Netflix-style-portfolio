@@ -1,5 +1,11 @@
 export type ProjectAsset =
-  | { type: "image"; src: string; alt?: string; link?: string }
+  | {
+      type: "image";
+      src: string;
+      alt?: string;
+      link?: string;
+      caption?: string;
+    }
   | { type: "video"; src: string; poster?: string }
   | { type: "embed"; src: string; title?: string };
 

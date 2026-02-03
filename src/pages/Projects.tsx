@@ -16,22 +16,8 @@ const Projects: React.FC = () => {
 
   // 2) Add 3 placeholder “unseen” projects BEFORE the homepage ones
   // Using Postbox.jpg (public folder) as placeholder
-  const placeholderCampaigns: RecruiterProject[] = [
-    {
-      id: "placeholder-1",
-      title: "Unseen Campaign 1",
-      subtitle: "(Placeholder)",
-      multiLineLabel: true,
-      thumbnail: "/Postbox.jpg",
-      cover: "/Postbox.jpg",
-      shortDescription:
-        "Placeholder project. Replace later with the real work.",
-      team: "—",
-      assets: [
-        { type: "image", src: "/Postbox.jpg", alt: "Unseen Campaign 1" },
-      ],
-    },
-  ];
+  // 2) Add 3 placeholder "unseen" projects BEFORE the homepage ones
+  const placeholderCampaigns: RecruiterProject[] = []; // Hidden for now
 
   // Final Campaign Thinking row order:
   const campaignThinkingRow: RecruiterProject[] = [
@@ -49,7 +35,7 @@ const Projects: React.FC = () => {
     {
       id: "patagonia-long-copy",
       title: "Patagonia — Long Copy",
-      subtitle: "(Placeholder)",
+      subtitle: "(School Work)",
       multiLineLabel: true,
       thumbnail: "/Patagonia.jpg",
       cover: "/Patagonia.jpg",
@@ -57,9 +43,24 @@ const Projects: React.FC = () => {
         "3 different headlines and one body copy for the famous campaign from Patagonia",
       team: "—",
       assets: [
-        { type: "image", src: "/Patagonia1.jpg", alt: "Patagonia long copy" },
-        { type: "image", src: "/Patagonia2.jpg", alt: "Patagonia long copy" },
-        { type: "image", src: "/Patagonia3.jpg", alt: "Patagonia long copy" },
+        {
+          type: "image",
+          src: "/Patagonia1.jpg",
+          alt: "Patagonia long copy",
+          caption: "Headline 1",
+        },
+        {
+          type: "image",
+          src: "/Patagonia2.jpg",
+          alt: "Patagonia long copy",
+          caption: "Headline 2",
+        },
+        {
+          type: "image",
+          src: "/Patagonia3.jpg",
+          alt: "Patagonia long copy",
+          caption: "Headline 3",
+        },
       ],
     },
     ...(icwProject ? [icwProject] : []),
@@ -93,12 +94,23 @@ const Projects: React.FC = () => {
       shortDescription: "Social Media and BAU copies for Lipton Ice Tea India.",
       team: "—",
       assets: [
-        { type: "image", src: "/Lipton-budget.jpg", alt: "Lipton cover" },
-        { type: "image", src: "/Lipton2.png", alt: "Placeholder 1" },
+        {
+          type: "image",
+          src: "/Lipton-budget.jpg",
+          alt: "Lipton cover",
+          caption: "Topical post when the Govt released the new budget.",
+        },
+        {
+          type: "image",
+          src: "/Lipton2.png",
+          alt: "Placeholder 1",
+          caption: "USP driven post - All natural.",
+        },
         {
           type: "image",
           src: "/Lipton-FriendshipDay.jpg",
           alt: "Placeholder 1",
+          caption: "Friendship Day Post",
         },
       ],
     },
@@ -136,21 +148,66 @@ const Projects: React.FC = () => {
       id: "short-misc",
       title: "Miscellaneous Brands",
       multiLineLabel: true,
-      thumbnail: "/Postbox.jpg",
-      cover: "/Postbox.jpg",
+      thumbnail: "/Headline-meme.jpeg",
+      cover: "/Liam-Nesson.jpeg",
       shortDescription:
         "Some ad copies for different brands across my agency years",
       team: "—",
       assets: [
-        { type: "image", src: "/Matter1.jpg", alt: "Placeholder 1" },
-        { type: "image", src: "/Matter2.jpg", alt: "Placeholder 2" },
-        { type: "image", src: "/Matter3.jpg", alt: "Placeholder 2" },
-        { type: "image", src: "/Matter4.jpg", alt: "Placeholder 2" },
-        { type: "image", src: "/Simba.jpg", alt: "Placeholder 2" },
-        { type: "image", src: "/Boult1.jpg", alt: "Placeholder 2" },
-        { type: "image", src: "/Boult2.jpg", alt: "Placeholder 2" },
-        { type: "image", src: "/Boult3.jpg", alt: "Placeholder 2" },
-        { type: "image", src: "/Prudential.jpg", alt: "Placeholder 2" },
+        {
+          type: "image",
+          src: "/Matter1.jpg",
+          alt: "Placeholder 1",
+          caption: "Post for Matter Electric Bike",
+        },
+        {
+          type: "image",
+          src: "/Matter2.jpg",
+          alt: "Placeholder 2",
+          caption: "Post for Matter Electric Bike",
+        },
+        {
+          type: "image",
+          src: "/Matter3.jpg",
+          alt: "Placeholder 2",
+          caption: "Post for Matter Electric Bike",
+        },
+        {
+          type: "image",
+          src: "/Matter4.jpg",
+          alt: "Placeholder 2",
+          caption: "Post for Matter Electric Bike",
+        },
+        {
+          type: "image",
+          src: "/Simba.jpg",
+          alt: "Placeholder 2",
+          caption: "Post for Simba Beer",
+        },
+        {
+          type: "image",
+          src: "/Boult1.jpg",
+          alt: "Placeholder 2",
+          caption: "Post for Boult Headphones",
+        },
+        {
+          type: "image",
+          src: "/Boult2.jpg",
+          alt: "Placeholder 2",
+          caption: "Post for Boult Headphones",
+        },
+        {
+          type: "image",
+          src: "/Boult3.jpg",
+          alt: "Placeholder 2",
+          caption: "Post for Boult Headphones",
+        },
+        {
+          type: "image",
+          src: "/Prudential.jpg",
+          alt: "Placeholder 2",
+          caption: "Post for Prudential Insurance Cambodia",
+        },
       ],
     },
   ];
@@ -158,6 +215,11 @@ const Projects: React.FC = () => {
   const scrollRefCampaign = useRef<HTMLDivElement | null>(null);
   const [canScrollLeftCampaign, setCanScrollLeftCampaign] = useState(false);
   const [canScrollRightCampaign, setCanScrollRightCampaign] = useState(false);
+
+  // Refs + arrows for horizontal scroll (Short Copies row)
+  const scrollRefShort = useRef<HTMLDivElement | null>(null);
+  const [canScrollLeftShort, setCanScrollLeftShort] = useState(false);
+  const [canScrollRightShort, setCanScrollRightShort] = useState(false);
 
   const updateScrollArrows = (
     ref: React.RefObject<HTMLDivElement>,
@@ -183,10 +245,18 @@ const Projects: React.FC = () => {
   };
 
   useEffect(() => {
+    // Campaign Thinking row
     updateScrollArrows(
       scrollRefCampaign,
       setCanScrollLeftCampaign,
       setCanScrollRightCampaign
+    );
+
+    // Short Copies row
+    updateScrollArrows(
+      scrollRefShort,
+      setCanScrollLeftShort,
+      setCanScrollRightShort
     );
   }, []);
 
@@ -293,11 +363,31 @@ const Projects: React.FC = () => {
       </div>
 
       {/* ===================== ROW 2: Short Copies ===================== */}
+      {/* ===================== ROW 2: Short Copies ===================== */}
       <div className="projects-row">
         <h2 className="row-title">Short Copies</h2>
 
         <div className="card-row-wrapper">
-          <div className="card-row scrollable-card-row">
+          {canScrollLeftShort && (
+            <button
+              className="scroll-arrow scroll-arrow-left"
+              onClick={() => scrollByAmount(scrollRefShort, "left")}
+            >
+              ‹
+            </button>
+          )}
+
+          <div
+            className="card-row scrollable-card-row"
+            ref={scrollRefShort}
+            onScroll={() =>
+              updateScrollArrows(
+                scrollRefShort,
+                setCanScrollLeftShort,
+                setCanScrollRightShort
+              )
+            }
+          >
             {shortCopiesRow.map((project, index) => (
               <div
                 key={String(project.id)}
@@ -336,6 +426,15 @@ const Projects: React.FC = () => {
               </div>
             ))}
           </div>
+
+          {canScrollRightShort && (
+            <button
+              className="scroll-arrow scroll-arrow-right"
+              onClick={() => scrollByAmount(scrollRefShort, "right")}
+            >
+              ›
+            </button>
+          )}
         </div>
       </div>
 
@@ -481,12 +580,18 @@ const Projects: React.FC = () => {
                 {(activeProject.assets || []).map((asset: any, i: number) => {
                   if (asset.type === "image") {
                     return (
-                      <img
-                        key={i}
-                        src={asset.src}
-                        alt={asset.alt || activeProject.title}
-                        className="project-asset-image"
-                      />
+                      <div key={i} className="project-asset-block">
+                        <img
+                          src={asset.src}
+                          alt={asset.alt || activeProject.title}
+                          className="project-asset-image"
+                        />
+                        {asset.caption && (
+                          <p className="project-asset-caption">
+                            {asset.caption}
+                          </p>
+                        )}
+                      </div>
                     );
                   }
 
