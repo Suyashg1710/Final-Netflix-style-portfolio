@@ -1,5 +1,5 @@
 export type ProjectAsset =
-  | { type: "image"; src: string; alt?: string }
+  | { type: "image"; src: string; alt?: string; caption?: string }
   | { type: "video"; src: string; poster?: string }
   | { type: "embed"; src: string; title?: string };
 

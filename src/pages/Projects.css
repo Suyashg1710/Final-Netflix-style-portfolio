@@ -250,6 +250,17 @@
   background: #000;
 }
 
+.project-asset-block {
+  margin-bottom: 1.5rem;
+}
+
+.project-asset-caption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #ccc;
+  line-height: 1.4;
+}
+
 /* Responsive embed */
 .embed-responsive {
   position: relative;
