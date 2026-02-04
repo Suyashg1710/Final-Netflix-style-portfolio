@@ -12,7 +12,7 @@ import {
   FaMusic,
   FaBook,
 } from "react-icons/fa";
-import { recruiterProjects, } from "./projectData";
+import { recruiterProjects } from "./projectData";
 
 type ProfileType = "Recruiter" | "Developer" | "Stalker" | "Adventurer";
 
@@ -178,6 +178,7 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
   const [selectedProjectIndex, setSelectedProjectIndex] = useState<
     number | null
   >(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const selectedProject =
     selectedProjectIndex !== null
       ? recruiterProjects[selectedProjectIndex]
@@ -189,6 +190,12 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
       return () => {
         document.body.style.overflow = originalStyle;
       };
+    }
+  }, [selectedProjectIndex]);
+  // Scroll modal to top when project changes
+  useEffect(() => {
+    if (modalRef.current) {
+      modalRef.current.scrollTop = 0;
     }
   }, [selectedProjectIndex]);
 
@@ -265,7 +272,11 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
             className="project-modal-backdrop"
             onClick={() => setSelectedProjectIndex(null)}
           >
-            <div className="project-modal" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="project-modal"
+              ref={modalRef}
+              onClick={(e) => e.stopPropagation()}
+            >
               <button
                 className="project-modal-close"
                 onClick={() => setSelectedProjectIndex(null)}
@@ -406,9 +417,7 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
   // OTHER PROFILES: keep old behaviour
   return (
     <div className="top-picks-row">
-      <h2 className="row-title">
-        { `Today's Top Picks for ${profile}`}
-      </h2>
+      <h2 className="row-title">{`Today's Top Picks for ${profile}`}</h2>
       <div className="card-row">
         {topPicks.map((pick, index) => (
           <div

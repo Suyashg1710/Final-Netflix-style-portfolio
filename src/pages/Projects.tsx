@@ -215,6 +215,8 @@ const Projects: React.FC = () => {
   const scrollRefCampaign = useRef<HTMLDivElement | null>(null);
   const [canScrollLeftCampaign, setCanScrollLeftCampaign] = useState(false);
   const [canScrollRightCampaign, setCanScrollRightCampaign] = useState(false);
+  // Ref for modal scroll control
+  const modalBodyRef = useRef<HTMLDivElement | null>(null);
 
   // Refs + arrows for horizontal scroll (Short Copies row)
   const scrollRefShort = useRef<HTMLDivElement | null>(null);
@@ -262,20 +264,28 @@ const Projects: React.FC = () => {
 
   // Modal state
   // ✅ ONE modal for ALL rows
-  const [activeProject, setActiveProject] = useState<RecruiterProject | null>(
-    null
-  );
+  const [activeProjectIndex, setActiveProjectIndex] = useState<{
+    project: RecruiterProject;
+    rowIndex: number;
+    rowProjects: RecruiterProject[];
+  } | null>(null);
 
   // Lock background scroll when modal open (same as homepage)
   useEffect(() => {
-    if (activeProject) {
+    if (activeProjectIndex?.project) {
       const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = "hidden";
       return () => {
         document.body.style.overflow = originalStyle;
       };
     }
-  }, [activeProject]);
+  }, [activeProjectIndex?.project]);
+  // Scroll modal to top when project changes
+  useEffect(() => {
+    if (activeProjectIndex?.project && modalBodyRef.current) {
+      modalBodyRef.current.scrollTop = 0;
+    }
+  }, [activeProjectIndex?.project]);
 
   return (
     <div className="projects-page">
@@ -314,7 +324,13 @@ const Projects: React.FC = () => {
                 key={String(project.id)}
                 className="pick-card"
                 style={{ animationDelay: `${index * 0.08}s` }}
-                onClick={() => setActiveProject(project)}
+                onClick={() =>
+                  setActiveProjectIndex({
+                    project,
+                    rowIndex: 0, // Campaign Thinking = row 0
+                    rowProjects: campaignThinkingRow,
+                  })
+                }
               >
                 <img
                   src={project.thumbnail}
@@ -393,7 +409,13 @@ const Projects: React.FC = () => {
                 key={String(project.id)}
                 className="pick-card"
                 style={{ animationDelay: `${index * 0.08}s` }}
-                onClick={() => setActiveProject(project)}
+                onClick={() =>
+                  setActiveProjectIndex({
+                    project,
+                    rowIndex: 1, // Short Copies = row 1
+                    rowProjects: shortCopiesRow,
+                  })
+                }
               >
                 <img
                   src={project.thumbnail}
@@ -449,7 +471,13 @@ const Projects: React.FC = () => {
                 key={String(project.id)}
                 className="pick-card"
                 style={{ animationDelay: `${index * 0.08}s` }}
-                onClick={() => setActiveProject(project)}
+                onClick={() =>
+                  setActiveProjectIndex({
+                    project,
+                    rowIndex: 2, // Big Copy = row 2
+                    rowProjects: bigCopyEnergyRow,
+                  })
+                }
               >
                 <img
                   src={project.thumbnail}
@@ -498,23 +526,44 @@ const Projects: React.FC = () => {
                   className="pick-card"
                   style={{ animationDelay: `${index * 0.08}s` }}
                   onClick={() =>
-                    setActiveProject({
-                      id: `student-${index}`,
-                      title: `Between Classes ${index + 1}`,
-                      thumbnail: "/Postbox.jpg",
-                      cover: "/Postbox.jpg",
-                      subtitle: "(Placeholder)",
-                      multiLineLabel: true,
-                      shortDescription:
-                        "Placeholder. We’ll add the real student work here later.",
-                      team: "—",
-                      assets: [
-                        {
-                          type: "image",
-                          src: "/Postbox.jpg",
-                          alt: "Student work",
-                        },
-                      ],
+                    setActiveProjectIndex({
+                      project: {
+                        id: `student-${index}`,
+                        title: `Between Classes ${index + 1}`,
+                        thumbnail: "/Postbox.jpg",
+                        cover: "/Postbox.jpg",
+                        subtitle: "(Placeholder)",
+                        multiLineLabel: true,
+                        shortDescription:
+                          "Placeholder. We'll add the real student work here later.",
+                        team: "—",
+                        assets: [
+                          {
+                            type: "image",
+                            src: "/Postbox.jpg",
+                            alt: "Student work",
+                          },
+                        ],
+                      },
+                      rowIndex: 3, // Between Classes = row 3
+                      rowProjects: Array.from({ length: 6 }).map((_, i) => ({
+                        id: `student-${i}`,
+                        title: `Between Classes ${i + 1}`,
+                        thumbnail: "/Postbox.jpg",
+                        cover: "/Postbox.jpg",
+                        subtitle: "(Placeholder)",
+                        multiLineLabel: true,
+                        shortDescription:
+                          "Placeholder. We'll add the real student work here later.",
+                        team: "—",
+                        assets: [
+                          {
+                            type: "image",
+                            src: "/Postbox.jpg",
+                            alt: "Student work",
+                          },
+                        ],
+                      })),
                     })
                   }
                 >
@@ -537,33 +586,39 @@ const Projects: React.FC = () => {
       )}
 
       {/* ✅ ONE shared modal for ALL rows */}
-      {activeProject && (
+      {activeProjectIndex && (
         <div
           className="project-modal-backdrop"
-          onClick={() => setActiveProject(null)}
+          onClick={() => setActiveProjectIndex(null)}
         >
-          <div className="project-modal" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="project-modal"
+            ref={modalBodyRef}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               className="project-modal-close"
-              onClick={() => setActiveProject(null)}
+              onClick={() => setActiveProjectIndex(null)}
             >
-              ✕
+              &times;
             </button>
 
             <div className="project-modal-hero">
               <img
-                src={activeProject.cover}
-                alt={activeProject.title}
+                src={activeProjectIndex?.project.cover}
+                alt={activeProjectIndex?.project.title}
                 className="project-modal-cover"
               />
             </div>
 
             <div className="project-modal-body">
-              <h2 className="project-modal-title">{activeProject.title}</h2>
+              <h2 className="project-modal-title">
+                {activeProjectIndex?.project.title}
+              </h2>
 
-              {activeProject.subtitle && (
+              {activeProjectIndex?.project.subtitle && (
                 <p className="project-modal-subtitle">
-                  {activeProject.subtitle}
+                  {activeProjectIndex?.project.subtitle}
                 </p>
               )}
 
@@ -571,63 +626,115 @@ const Projects: React.FC = () => {
                 className="project-modal-description"
                 dangerouslySetInnerHTML={{
                   __html:
-                    activeProject.shortDescription ||
-                    "Placeholder. We’ll add the real work here later.",
+                    activeProjectIndex?.project.shortDescription ||
+                    "Placeholder. We'll add the real work here later.",
                 }}
               />
 
               <div className="project-modal-assets">
-                {(activeProject.assets || []).map((asset: any, i: number) => {
-                  if (asset.type === "image") {
-                    return (
-                      <div key={i} className="project-asset-block">
-                        <img
-                          src={asset.src}
-                          alt={asset.alt || activeProject.title}
-                          className="project-asset-image"
-                        />
-                        {asset.caption && (
-                          <p className="project-asset-caption">
-                            {asset.caption}
-                          </p>
-                        )}
-                      </div>
-                    );
-                  }
-
-                  if (asset.type === "video") {
-                    return (
-                      <video
-                        key={i}
-                        className="project-asset-video"
-                        src={asset.src}
-                        poster={asset.poster}
-                        controls
-                      />
-                    );
-                  }
-
-                  if (asset.type === "embed") {
-                    return (
-                      <div key={i} className="project-asset-embed">
-                        <div className="embed-responsive">
-                          <iframe
-                            src={`${asset.src}?title=0&byline=0&portrait=0`}
-                            title={asset.title || activeProject.title}
-                            frameBorder="0"
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            allowFullScreen
+                {(activeProjectIndex?.project.assets || []).map(
+                  (asset: any, i: number) => {
+                    if (asset.type === "image") {
+                      return (
+                        <div key={i} className="project-asset-block">
+                          <img
+                            src={asset.src}
+                            alt={asset.alt || activeProjectIndex?.project.title}
+                            className="project-asset-image"
                           />
+                          {asset.caption && (
+                            <p className="project-asset-caption">
+                              {asset.caption}
+                            </p>
+                          )}
                         </div>
-                      </div>
-                    );
-                  }
+                      );
+                    }
 
-                  return null;
-                })}
+                    if (asset.type === "video") {
+                      return (
+                        <video
+                          key={i}
+                          className="project-asset-video"
+                          src={asset.src}
+                          poster={asset.poster}
+                          controls
+                        />
+                      );
+                    }
+
+                    if (asset.type === "embed") {
+                      return (
+                        <div key={i} className="project-asset-embed">
+                          <div className="embed-responsive">
+                            <iframe
+                              src={`${asset.src}?title=0&byline=0&portrait=0`}
+                              title={
+                                asset.title || activeProjectIndex?.project.title
+                              }
+                              frameBorder="0"
+                              allow="autoplay; fullscreen; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    return null;
+                  }
+                )}
               </div>
 
-              <p className="project-modal-team">{activeProject.team || "—"}</p>
+              <p className="project-modal-team">
+                {activeProjectIndex?.project.team || "—"}
+              </p>
+
+              <div className="project-modal-nav">
+                {(() => {
+                  const total = activeProjectIndex!.rowProjects.length;
+                  const currentIndex =
+                    activeProjectIndex!.rowProjects.findIndex(
+                      (p) => p.id === activeProjectIndex!.project.id
+                    );
+                  const prevIndex = (currentIndex + total - 1) % total;
+                  const nextIndex = (currentIndex + 1) % total;
+                  const prevProject =
+                    activeProjectIndex!.rowProjects[prevIndex];
+                  const nextProject =
+                    activeProjectIndex!.rowProjects[nextIndex];
+
+                  return (
+                    <>
+                      <button
+                        type="button"
+                        className="project-modal-nav-link project-modal-nav-link-prev"
+                        onClick={() =>
+                          setActiveProjectIndex({
+                            ...activeProjectIndex!,
+                            project: prevProject,
+                          })
+                        }
+                      >
+                        ‹ {prevProject.title}
+                      </button>
+
+                      <button
+                        type="button"
+                        className="project-modal-nav-link project-modal-nav-link-next"
+                        onClick={() =>
+                          setActiveProjectIndex({
+                            ...activeProjectIndex!,
+                            project: nextProject,
+                          })
+                        }
+                      >
+                        {nextProject.title} ›
+                      </button>
+                    </>
+                  );
+                })()}
+              </div>
             </div>
           </div>
         </div>
