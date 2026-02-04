@@ -304,3 +304,67 @@
     transparent
   ) !important;
 }
+
+.project-modal-nav {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0 1rem 0;
+  justify-content: center;
+}
+
+.project-modal-prev,
+.project-modal-next {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.project-modal-prev:hover,
+.project-modal-next:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.project-modal-prev:disabled,
+.project-modal-next:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.project-modal-nav {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-modal-nav-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #fff;
+  font-size: 0.9rem;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.project-modal-nav-link:hover {
+  color: #ff4c4c;
+}
+
+.project-modal-nav-link-prev {
+  text-align: left;
+}
+
+.project-modal-nav-link-next {
+  text-align: right;
+}
