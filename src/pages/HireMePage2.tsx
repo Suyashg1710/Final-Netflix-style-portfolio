@@ -86,7 +86,12 @@ const HireMePage: React.FC = () => {
           {/* Resume Button */}
           <div className="resume-button-container">
             <PlayButton
-              onClick={() => window.open("YOUR_RESUME_LINK_HERE", "_blank")}
+              onClick={() =>
+                window.open(
+                  "https://drive.google.com/file/d/1vQnqSo8qKVp1UjqqRkgiPLrjGitau4pL/view?usp=sharing",
+                  "_blank"
+                )
+              }
               label="Resume"
             />
           </div>
