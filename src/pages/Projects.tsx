@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import Slider from "react-slick"; // ← ADD
+import "slick-carousel/slick/slick.css"; // ← ADD
+import "slick-carousel/slick/slick-theme.css"; // ← ADD
 import "./Projects.css";
 import { recruiterProjects } from "../profilePage/projectData";
 
@@ -38,7 +41,7 @@ const Projects: React.FC = () => {
       subtitle: "(School Work)",
       multiLineLabel: true,
       thumbnail: "/Patagonia.jpg",
-      cover: "/Patagonia.jpg",
+      cover: "/PatagoniaLogo.jpeg",
       shortDescription:
         "3 different headlines and one body copy for the famous campaign from Patagonia",
       team: "—",
@@ -90,7 +93,7 @@ const Projects: React.FC = () => {
       subtitle: "(Agency Work)",
       multiLineLabel: true,
       thumbnail: "/Lipton.jpg",
-      cover: "/Lipton.jpg",
+      cover: "/LiptonCover.jpg",
       shortDescription: "Social Media and BAU copies for Lipton Ice Tea India.",
       team: "—",
       assets: [
@@ -632,8 +635,29 @@ const Projects: React.FC = () => {
               />
 
               <div className="project-modal-assets">
-                {(activeProjectIndex?.project.assets || []).map(
-                  (asset: any, i: number) => {
+                {(() => {
+                  // ✅ Detect if this row should use slider
+                  const useSlider =
+                    activeProjectIndex?.rowIndex === 1 ||
+                    activeProjectIndex?.rowIndex === 2;
+                  // rowIndex 1 = Short Copies, rowIndex 2 = Big Copy Energy
+
+                  const assets = activeProjectIndex?.project.assets || [];
+
+                  // Slider settings (same as HireMePage2)
+                  const sliderSettings = {
+                    dots: true,
+                    infinite: assets.length > 1,
+                    speed: 500,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    adaptiveHeight: true,
+                    lazyLoad: "ondemand" as const,
+                  };
+
+                  // Function to render each asset
+                  const renderAsset = (asset: any, i: number) => {
                     if (asset.type === "image") {
                       return (
                         <div key={i} className="project-asset-block">
@@ -682,8 +706,27 @@ const Projects: React.FC = () => {
                     }
 
                     return null;
+                  };
+
+                  // ✅ Use SLIDER for Short Copies (rowIndex 1) + Big Copy Energy (rowIndex 2)
+                  if (useSlider && assets.length > 0) {
+                    return (
+                      <Slider
+                        {...sliderSettings}
+                        className="project-modal-slider"
+                      >
+                        {assets.map((asset: any, i: number) =>
+                          renderAsset(asset, i)
+                        )}
+                      </Slider>
+                    );
                   }
-                )}
+
+                  // ✅ Use VERTICAL SCROLL for Campaign Thinking (rowIndex 0)
+                  return assets.map((asset: any, i: number) =>
+                    renderAsset(asset, i)
+                  );
+                })()}
               </div>
 
               <p className="project-modal-team">
