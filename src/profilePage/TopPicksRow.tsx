@@ -111,20 +111,15 @@ const topPicksConfig = {
   Stalker: [
     {
       title: "Music",
-      imgSrc: "https://picsum.photos/seed/music/250/200",
-      route: "/music",
+      imgSrc: "/Anthology.jpg",
+      route: "/music/Stalker",
       icon: <FaMusic />,
     },
     {
       title: "Reading",
-      imgSrc: "https://picsum.photos/seed/books/250/200",
+      imgSrc: "/Reading.jpg",
       route: "/reading",
       icon: <FaBook />,
-    },
-    {
-      title: "Blogs",
-      imgSrc: "https://picsum.photos/id/1027/300/200",
-      route: "/blogs",
     },
   ],
   Adventurer: [
