@@ -4,12 +4,11 @@
   padding: 5rem 2rem;
   color: #333;
   text-align: center;
-  /* background: linear-gradient(to bottom right, #fdfbfb, #ebedee); */
 }
 
 .reading-title {
   font-size: 2.5rem;
-  color: #ff6f61;
+  color: #ffffff;
   font-weight: bold;
   margin-bottom: 0.5rem;
   animation: slideDown 0.8s ease-in-out;
@@ -17,7 +16,7 @@
 
 .reading-intro {
   font-size: 1.1rem;
-  color:white;
+  color: white;
   margin-bottom: 2rem;
 }
 
@@ -35,16 +34,13 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: fadeInUp 0.5s ease forwards;
   opacity: 0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   animation: popUp 2s ease forwards;
 }
 
 .book-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05); /* Zoom-in effect */
-  box-shadow: 0rem 0rem 20rem 20px rgba(211, 29, 29, 0.4)
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .book-cover {
@@ -72,37 +68,34 @@
 .book-description {
   font-size: 0.9rem;
   color: #555;
-  transition: color 0.3s ease;
-}
-
-.book-card:hover .book-description {
-  color: #ff6f61;
-}
-
-/* Telugu books */
-.book-title:lang(te) {
-  font-family: 'Noto Sans Telugu', sans-serif;
-  color: #4a90e2;
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  line-height: 1.4;
 }
 
 @keyframes slideDown {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(-20px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

@@ -79,7 +79,7 @@ const App: React.FC = () => {
         />
 
         <Route
-          path="/music"
+          path="/music/:profile?"
           element={
             <Layout>
               <Music />

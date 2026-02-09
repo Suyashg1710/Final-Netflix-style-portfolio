@@ -375,32 +375,48 @@
   margin: 2rem 0;
 }
 
-/* Slider arrows */
+/* ===================== Slider arrows (matching row scroll arrows) ===================== */
+
 .project-modal-slider .slick-prev,
 .project-modal-slider .slick-next {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 60px;
   z-index: 100;
+  background: rgba(0, 0, 0, 0.6) !important;
+  border-radius: 4px;
+  transition: background 0.3s;
 }
 
 .project-modal-slider .slick-prev {
-  left: -50px;
+  left: 10px;
 }
 
 .project-modal-slider .slick-next {
-  right: -50px;
+  right: 10px;
+}
+
+.project-modal-slider .slick-prev:hover,
+.project-modal-slider .slick-next:hover {
+  background: rgba(0, 0, 0, 0.85) !important;
 }
 
 .project-modal-slider .slick-prev:before,
 .project-modal-slider .slick-next:before {
-  font-size: 40px;
+  font-size: 1.8rem;
   color: #fff;
-  opacity: 0.75;
+  opacity: 1;
+  line-height: 1;
 }
 
-.project-modal-slider .slick-prev:hover:before,
-.project-modal-slider .slick-next:hover:before {
-  opacity: 1;
+/* Mobile responsive - keep visible on small screens */
+@media (max-width: 768px) {
+  .project-modal-slider .slick-prev {
+    left: 10px;
+  }
+
+  .project-modal-slider .slick-next {
+    right: 10px;
+  }
 }
 
 /* Slider dots */
@@ -427,5 +443,69 @@
 
   .project-modal-slider .slick-next {
     right: 10px;
+  }
+}
+
+/* ===================== Modal Navigation Arrows (matching row arrows) ===================== */
+
+.modal-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1002;
+  width: 36px;
+  height: 60px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+.modal-nav-left {
+  left: 20px;
+}
+
+.modal-nav-right {
+  right: 20px;
+}
+
+.modal-nav-button:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.modal-nav-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Make sure arrows are positioned relative to the hero section */
+.project-modal-hero {
+  position: relative;
+}
+
+/* Give slider breathing room for external arrows */
+.project-modal-slider {
+  margin: 2rem 0;
+  padding: 0 60px; /* Space for arrows on sides */
+}
+
+/* On mobile, arrows go inside */
+@media (max-width: 768px) {
+  .project-modal-slider {
+    padding: 0; /* Remove padding on mobile */
+  }
+
+  .project-modal-slider .slick-prev {
+    left: 10px; /* Arrows inside on mobile */
+  }
+
+  .project-modal-slider .slick-next {
+    right: 10px; /* Arrows inside on mobile */
   }
 }
