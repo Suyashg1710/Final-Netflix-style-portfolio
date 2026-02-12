@@ -17,13 +17,35 @@ const Projects: React.FC = () => {
     (p) => campaignHomepageIds.includes(String(p.id))
   );
 
-  // 2) Add 3 placeholder “unseen” projects BEFORE the homepage ones
-  // Using Postbox.jpg (public folder) as placeholder
-  // 2) Add 3 placeholder "unseen" projects BEFORE the homepage ones
-  const placeholderCampaigns: RecruiterProject[] = []; // Hidden for now
+  // 2) Placeholder campaigns – currently none, but keep the array for future use
+  const placeholderCampaigns: RecruiterProject[] = [];
 
-  // Final Campaign Thinking row order:
+  // Final Campaign Thinking row: homepage projects + Bon AppeLIT
   const campaignThinkingRow: RecruiterProject[] = [
+    {
+      id: "bon-appeLIT",
+      title: "Bon AppeLIT",
+      subtitle: "Lipton Ice Tea",
+      multiLineLabel: true,
+      thumbnail: "/BonAppelit.png", // put this image in /public
+      cover: "/LiptonCover.jpg",
+      shortDescription:
+        "An influencer campaign that pairs Lipton Ice Tea with the best part of every meal, turning a behaviour gap into a flavour insight.",
+      year: "2021",
+      team: "Copywriter: Suyash Gupta",
+      assets: [
+        {
+          type: "embed",
+          src: "https://www.instagram.com/p/CYopqJKAd6Z/embed",
+          title: "Bon AppeLIT – RJ Abhinav",
+        },
+        {
+          type: "embed",
+          src: "https://www.instagram.com/p/CYYOUDHghLi/embed",
+          title: "Bon AppeLIT Campaign – Chef Kunal Kapoor",
+        },
+      ],
+    },
     ...placeholderCampaigns,
     ...campaignFromHomepage,
   ];
@@ -102,6 +124,7 @@ const Projects: React.FC = () => {
           src: "/Lipton-budget.jpg",
           alt: "Lipton cover",
           caption: "Topical post when the Govt released the new budget.",
+          link: "https://www.instagram.com/p/CZi4PfqIC3h/",
         },
         {
           type: "image",
@@ -634,6 +657,15 @@ const Projects: React.FC = () => {
                 }}
               />
 
+              {activeProjectIndex?.project.year && (
+                <p className="project-modal-year">
+                  <span className="project-modal-year-label">Year:</span>{" "}
+                  <span className="project-modal-year-value">
+                    {activeProjectIndex.project.year}
+                  </span>
+                </p>
+              )}
+
               <div className="project-modal-assets">
                 {(() => {
                   // ✅ Detect if this row should use slider
@@ -688,11 +720,34 @@ const Projects: React.FC = () => {
                     }
 
                     if (asset.type === "embed") {
+                      const isInstagram = asset.src.includes("instagram.com");
+
+                      if (isInstagram) {
+                        return (
+                          <div
+                            key={i}
+                            className="project-asset-embed instagram-embed"
+                          >
+                            <iframe
+                              src={asset.src}
+                              title={
+                                asset.title || activeProjectIndex?.project.title
+                              }
+                              frameBorder="0"
+                              scrolling="no"
+                              allow="autoplay; fullscreen; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                        );
+                      }
+
+                      // non‑Instagram embeds (YouTube, Vimeo etc.)
                       return (
                         <div key={i} className="project-asset-embed">
                           <div className="embed-responsive">
                             <iframe
-                              src={`${asset.src}?title=0&byline=0&portrait=0`}
+                              src={asset.src}
                               title={
                                 asset.title || activeProjectIndex?.project.title
                               }
@@ -723,57 +778,69 @@ const Projects: React.FC = () => {
                   }
 
                   // ✅ Use VERTICAL SCROLL for Campaign Thinking (rowIndex 0)
-                  return assets.map((asset: any, i: number) =>
-                    renderAsset(asset, i)
-                  );
-                })()}
-              </div>
-
-              <p className="project-modal-team">
-                {activeProjectIndex?.project.team || "—"}
-              </p>
-
-              <div className="project-modal-nav">
-                {(() => {
-                  const total = activeProjectIndex!.rowProjects.length;
-                  const currentIndex =
-                    activeProjectIndex!.rowProjects.findIndex(
-                      (p) => p.id === activeProjectIndex!.project.id
-                    );
-                  const prevIndex = (currentIndex + total - 1) % total;
-                  const nextIndex = (currentIndex + 1) % total;
-                  const prevProject =
-                    activeProjectIndex!.rowProjects[prevIndex];
-                  const nextProject =
-                    activeProjectIndex!.rowProjects[nextIndex];
-
+                  const isBonAppelit =
+                    activeProjectIndex?.project.id === "bon-appeLIT";
                   return (
                     <>
-                      <button
-                        type="button"
-                        className="project-modal-nav-link project-modal-nav-link-prev"
-                        onClick={() =>
-                          setActiveProjectIndex({
-                            ...activeProjectIndex!,
-                            project: prevProject,
-                          })
-                        }
+                      <div
+                        className={`project-modal-assets ${
+                          isBonAppelit ? "instagram-grid" : ""
+                        }`}
                       >
-                        ‹ {prevProject.title}
-                      </button>
+                        {assets.map((asset: any, i: number) =>
+                          renderAsset(asset, i)
+                        )}
+                      </div>
 
-                      <button
-                        type="button"
-                        className="project-modal-nav-link project-modal-nav-link-next"
-                        onClick={() =>
-                          setActiveProjectIndex({
-                            ...activeProjectIndex!,
-                            project: nextProject,
-                          })
-                        }
-                      >
-                        {nextProject.title} ›
-                      </button>
+                      <p className="project-modal-team">
+                        {activeProjectIndex?.project.team || "—"}
+                      </p>
+
+                      <div className="project-modal-nav">
+                        {(() => {
+                          const total = activeProjectIndex!.rowProjects.length;
+                          const currentIndex =
+                            activeProjectIndex!.rowProjects.findIndex(
+                              (p) => p.id === activeProjectIndex!.project.id
+                            );
+                          const prevIndex = (currentIndex + total - 1) % total;
+                          const nextIndex = (currentIndex + 1) % total;
+                          const prevProject =
+                            activeProjectIndex!.rowProjects[prevIndex];
+                          const nextProject =
+                            activeProjectIndex!.rowProjects[nextIndex];
+
+                          return (
+                            <>
+                              <button
+                                type="button"
+                                className="project-modal-nav-link project-modal-nav-link-prev"
+                                onClick={() =>
+                                  setActiveProjectIndex({
+                                    ...activeProjectIndex!,
+                                    project: prevProject,
+                                  })
+                                }
+                              >
+                                ‹ {prevProject.title}
+                              </button>
+
+                              <button
+                                type="button"
+                                className="project-modal-nav-link project-modal-nav-link-next"
+                                onClick={() =>
+                                  setActiveProjectIndex({
+                                    ...activeProjectIndex!,
+                                    project: nextProject,
+                                  })
+                                }
+                              >
+                                {nextProject.title} ›
+                              </button>
+                            </>
+                          );
+                        })()}
+                      </div>
                     </>
                   );
                 })()}

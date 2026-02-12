@@ -397,3 +397,35 @@
 .icw-assets-grid img:nth-child(3) {
   flex: 0 0 100%;
 }
+
+/* Instagram embed styling */
+.instagram-embed {
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+}
+
+.instagram-embed-iframe {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .instagram-embed-iframe {
+    max-width: 100% !important;
+    height: 700px !important;
+  }
+}
+.project-modal-year {
+  margin-top: 12px;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.project-modal-year-label {
+  color: #ffffff; /* white */
+  font-weight: 600;
+}
+
+.project-modal-year-value {
+  color: #b3b3b3; /* Netflix-ish grey */
+}

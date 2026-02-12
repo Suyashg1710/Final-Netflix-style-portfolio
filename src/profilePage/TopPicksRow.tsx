@@ -303,6 +303,15 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
                   }}
                 />
 
+                {selectedProject.year && (
+                  <p className="project-modal-year">
+                    <span className="project-modal-year-label">Year:</span>{" "}
+                    <span className="project-modal-year-value">
+                      {selectedProject.year}
+                    </span>
+                  </p>
+                )}
+
                 {/* THIS is the block that “handles embed” */}
                 <div
                   className={
@@ -350,6 +359,39 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
                     }
 
                     if (asset.type === "embed") {
+                      // ✅ Check if it's an Instagram embed
+                      const isInstagram = asset.src.includes("instagram.com");
+
+                      if (isInstagram) {
+                        // Instagram-specific rendering
+                        return (
+                          <div
+                            key={i}
+                            className="project-asset-embed instagram-embed"
+                          >
+                            <iframe
+                              src={asset.src}
+                              className="instagram-embed-iframe"
+                              frameBorder="0"
+                              scrolling="no"
+                              allowTransparency={true}
+                              title={asset.title || selectedProject.title}
+                              style={{
+                                width: "100%",
+                                maxWidth: "540px",
+                                height: "800px",
+                                margin: "0 auto",
+                                display: "block",
+                                border: "none",
+                                overflow: "hidden",
+                                borderRadius: "8px",
+                              }}
+                            />
+                          </div>
+                        );
+                      }
+
+                      // ✅ For Vimeo/YouTube (existing behavior - UNCHANGED)
                       return (
                         <div key={i} className="project-asset-embed">
                           <div className="embed-responsive">
