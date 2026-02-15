@@ -17,7 +17,6 @@ const Projects: React.FC = () => {
     "1",
     "roku",
     "la-roche-posay",
-    ,
   ];
 
   const campaignFromHomepage: RecruiterProject[] = recruiterProjects.filter(
