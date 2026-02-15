@@ -67,7 +67,7 @@ export const recruiterProjects: RecruiterProject[] = [
   {
     id: "goat-mercedes-cla",
     title: "Goat x Mercedes-Benz CLA",
-    subtitle: "(Agency Work))",
+    subtitle: "( Agency: antoni_ )",
     team: "Role: Concept & Copy",
     year: "2026",
     shortDescription:
