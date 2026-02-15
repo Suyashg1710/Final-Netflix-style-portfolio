@@ -65,6 +65,24 @@ export const recruiterProjects: RecruiterProject[] = [
     // Optional: add a small badge to the title area later if you like.
   },
   {
+    id: "goat-mercedes-cla",
+    title: "Goat x Mercedes-Benz CLA",
+    subtitle: "( Agency: antoni_ )",
+    team: "Role: Concept & Copy",
+    year: "2026",
+    shortDescription:
+      "A girl with big dreams meets her unlikely film hero, Will the goat, whose giant goals mirror Mercedes-Benz’s belief that ambition and innovation drive what’s possible.",
+    thumbnail: "/Mercedes-Benz-logo.jpeg", // tile image
+    cover: "/MercedesGoat.png", // modal hero image
+    assets: [
+      {
+        type: "embed",
+        src: "https://www.youtube.com/embed/nIhfXhtzuwg?si=2z359yjmtVuYqJzS",
+        title: "Goat x Mercedes-Benz CLA",
+      },
+    ],
+  },
+  {
     id: 1,
     title: "Cerave – skin donAItion",
     thumbnail: "/Cerave.png",

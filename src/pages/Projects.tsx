@@ -11,7 +11,13 @@ const Projects: React.FC = () => {
   const SHOW_BETWEEN_CLASSES = false;
 
   // 1) Pick the 4 homepage projects you want inside Campaign Thinking
-  const campaignHomepageIds = ["postbox-id", "1", "roku", "la-roche-posay"];
+  const campaignHomepageIds = [
+    "postbox-id",
+    "goat-mercedes-cla",
+    "1",
+    "roku",
+    "la-roche-posay",
+  ];
 
   const campaignFromHomepage: RecruiterProject[] = recruiterProjects.filter(
     (p) => campaignHomepageIds.includes(String(p.id))
@@ -363,7 +369,6 @@ const Projects: React.FC = () => {
                   alt={project.title}
                   className="pick-image"
                 />
-
                 {/* Title always visible + subtitle support (same as homepage) */}
                 <div className="overlay">
                   <div className="overlay-bottom">
