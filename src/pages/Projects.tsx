@@ -180,8 +180,8 @@ const Projects: React.FC = () => {
       id: "short-misc",
       title: "Miscellaneous Brands",
       multiLineLabel: true,
-      thumbnail: "/Headline-meme.jpeg",
-      cover: "/Liam-Nesson.jpeg",
+      thumbnail: "/Liam-Nesson.jpeg",
+      cover: "/MiscBrands.gif",
       shortDescription:
         "Some ad copies for different brands across my agency years",
       team: "—",
