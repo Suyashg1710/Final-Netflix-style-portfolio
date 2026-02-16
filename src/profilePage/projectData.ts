@@ -71,7 +71,7 @@ export const recruiterProjects: RecruiterProject[] = [
     team: "Role: Concept & Copy",
     year: "2026",
     shortDescription:
-      "A girl with big dreams meets her unlikely film hero, Will the goat, whose giant goals mirror Mercedes-Benz’s belief that ambition and innovation drive what’s possible.",
+      "For Mercedes-Benz x GOAT by Sony Pictures Animation, we turned a movie moment into a movement where big dreams met electric ambition, and the all-new CLA drove the story forward.",
     thumbnail: "/Mercedes-Benz-logo.jpeg", // tile image
     cover: "/MercedesGoat.png", // modal hero image
     assets: [
