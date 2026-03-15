@@ -77,7 +77,7 @@ export const recruiterProjects: RecruiterProject[] = [
     assets: [
       {
         type: "embed",
-        src: "https://www.youtube.com/embed/nIhfXhtzuwg?si=2z359yjmtVuYqJzS",
+        src: "https://www.youtube.com/embed/Ee1lKnGQ-50?si=uVzR_SksIK4cQ4X3",
         title: "Goat x Mercedes-Benz CLA",
       },
     ],
