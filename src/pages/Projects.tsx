@@ -1,16 +1,162 @@
 import React, { useEffect, useRef, useState } from "react";
-import Slider from "react-slick"; // ← ADD
-import "slick-carousel/slick/slick.css"; // ← ADD
-import "slick-carousel/slick/slick-theme.css"; // ← ADD
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "./Projects.css";
 import { recruiterProjects } from "../profilePage/projectData";
 
 type RecruiterProject = (typeof recruiterProjects)[number];
 
+function formatTeamCredits(team?: string): string {
+  if (!team) return "";
+
+  return team
+    .replace(/\s+Art Directors?:/gi, "\nArt Directors:")
+    .replace(/\s+Art Director:/gi, "\nArt Director:");
+}
+
+// ─── Coverflow Carousel ───────────────────────────────────────────────
+const CoverflowCarousel: React.FC<{
+  assets: any[];
+  projectTitle: string;
+  onExpand: (asset: any) => void;
+}> = ({ assets, projectTitle, onExpand }) => {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    setActive(0);
+  }, [assets]);
+
+  if (!assets.length) return null;
+
+  const getStyle = (i: number): React.CSSProperties => {
+    const offset = i - active;
+    const absOffset = Math.abs(offset);
+
+    if (absOffset > 2) return { display: "none" };
+
+    const rotateY = offset * -45;
+    // px-based offset so active card sits at center of stage
+    const translateX = `calc(-50% + ${offset * 220}px)`;
+    const translateZ = absOffset === 0 ? 0 : -180;
+    const scale = absOffset === 0 ? 1 : absOffset === 1 ? 0.78 : 0.58;
+    const brightness = absOffset === 0 ? 1 : absOffset === 1 ? 0.55 : 0.3;
+    const zIndex = 10 - absOffset;
+
+    return {
+      transform: `translateX(${translateX}) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+      filter: `brightness(${brightness})`,
+      zIndex,
+      cursor: "pointer",
+      transition: "all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+    };
+  };
+
+  const prev = () => setActive((a) => Math.max(0, a - 1));
+  const next = () => setActive((a) => Math.min(assets.length - 1, a + 1));
+
+  return (
+    <div className="coverflow-wrapper">
+      <div className="coverflow-stage">
+        {assets.map((asset: any, i: number) => {
+          const isActive = i === active;
+          return (
+            <div
+              key={i}
+              className={`coverflow-card${isActive ? " coverflow-active" : ""}`}
+              style={getStyle(i)}
+              onClick={() => {
+                if (isActive) onExpand(asset);
+                else setActive(i);
+              }}
+            >
+              {asset.type === "image" && (
+                <img src={asset.src} alt={asset.alt || projectTitle} />
+              )}
+              {asset.type === "video" && (
+                <video
+                  src={asset.src}
+                  muted
+                  playsInline
+                  poster={asset.poster}
+                />
+              )}
+              {asset.type === "embed" &&
+                (asset.thumbnail ? (
+                  <div className="coverflow-embed-thumb">
+                    <img src={asset.thumbnail} alt={asset.title || "Post"} />
+                    <div className="coverflow-embed-play-icon">
+                      <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        fill="white"
+                        opacity="0.9"
+                      >
+                        <circle cx="12" cy="12" r="12" fill="rgba(0,0,0,0.5)" />
+                        <polygon points="10,8 17,12 10,16" fill="white" />
+                      </svg>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="coverflow-embed-placeholder">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#e50914"
+                      strokeWidth="2"
+                    >
+                      <rect x="2" y="2" width="20" height="20" rx="3" />
+                      <path d="M8 12h8M12 8v8" />
+                    </svg>
+                    <span>{asset.title || "View Post"}</span>
+                  </div>
+                ))}
+              {isActive && asset.caption && (
+                <div className="coverflow-caption">{asset.caption}</div>
+              )}
+              {isActive && (
+                <div className="coverflow-expand-hint">click to expand</div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Prev / Next arrows */}
+      <div className="coverflow-controls">
+        <button
+          className="coverflow-btn"
+          onClick={prev}
+          disabled={active === 0}
+        >
+          ‹
+        </button>
+        <div className="coverflow-dots">
+          {assets.map((_: any, i: number) => (
+            <button
+              key={i}
+              className={`coverflow-dot${i === active ? " active" : ""}`}
+              onClick={() => setActive(i)}
+            />
+          ))}
+        </div>
+        <button
+          className="coverflow-btn"
+          onClick={next}
+          disabled={active === assets.length - 1}
+        >
+          ›
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Projects: React.FC = () => {
   const SHOW_BETWEEN_CLASSES = false;
 
-  // 1) Pick the 4 homepage projects you want inside Campaign Thinking
   const campaignHomepageIds = [
     "postbox-id",
     "goat-mercedes-cla",
@@ -23,17 +169,15 @@ const Projects: React.FC = () => {
     (p) => campaignHomepageIds.includes(String(p.id))
   );
 
-  // 2) Placeholder campaigns – currently none, but keep the array for future use
   const placeholderCampaigns: RecruiterProject[] = [];
 
-  // Final Campaign Thinking row: homepage projects + Bon AppeLIT
   const campaignThinkingRow: RecruiterProject[] = [
     {
       id: "bon-appeLIT",
       title: "Bon AppeLIT",
       subtitle: "Lipton Ice Tea",
       multiLineLabel: true,
-      thumbnail: "/BonAppelit.png", // put this image in /public
+      thumbnail: "/BonAppelit.png",
       cover: "/LiptonCover.jpg",
       shortDescription:
         "An influencer campaign that pairs Lipton Ice Tea with the best part of every meal, turning a behaviour gap into a flavour insight.",
@@ -44,11 +188,13 @@ const Projects: React.FC = () => {
           type: "embed",
           src: "https://www.instagram.com/p/CYopqJKAd6Z/embed",
           title: "Bon AppeLIT – RJ Abhinav",
+          thumbnail: "/LiptonReelRJ.png",
         },
         {
           type: "embed",
           src: "https://www.instagram.com/p/CYYOUDHghLi/embed",
           title: "Bon AppeLIT Campaign – Chef Kunal Kapoor",
+          thumbnail: "/LiptonReelKK.png",
         },
       ],
     },
@@ -56,12 +202,10 @@ const Projects: React.FC = () => {
     ...campaignFromHomepage,
   ];
 
-  // Find ICW project from homepage data (used for Big Copy Energy row)
   const icwProject = recruiterProjects.find(
     (p) => String(p.id) === "india-craft-week"
   );
 
-  // Big Copy Energy row (Patagonia + ICW)
   const bigCopyEnergyRow: RecruiterProject[] = [
     {
       id: "patagonia-long-copy",
@@ -97,7 +241,6 @@ const Projects: React.FC = () => {
     ...(icwProject ? [icwProject] : []),
   ];
 
-  // Short Copies row (tiles + modal content)
   const shortCopiesRow: RecruiterProject[] = [
     {
       id: "short-bmw",
@@ -151,13 +294,25 @@ const Projects: React.FC = () => {
       title: "Suzuki",
       subtitle: "(Agency work)",
       multiLineLabel: true,
-      thumbnail: "/Suzuki2.jpg",
-      cover: "/Suzuki2.jpg",
+      thumbnail: "/SuzukiCover.jpg",
+      cover: "/SuzukiCover.jpg",
       shortDescription: "Social Media and BAU copies for Suzuki 2 Wheelers.",
       team: "—",
       assets: [
         { type: "image", src: "/Suzuki1.jpg", alt: "Suzuki" },
         { type: "image", src: "/Suzuki5.jpg", alt: "Placeholder 1" },
+        {
+          type: "embed",
+          src: "https://www.instagram.com/reel/Cwp2p_RJcEd/embed",
+          title: "Suzuki Matsuri",
+          thumbnail: "/MatsuriLogo.png",
+        },
+        {
+          type: "embed",
+          src: "https://www.instagram.com/reel/Ct3U1EAvWys/embed",
+          title: "Suzuki Reel",
+          thumbnail: "/Reel3.png",
+        },
       ],
     },
     {
@@ -243,17 +398,17 @@ const Projects: React.FC = () => {
       ],
     },
   ];
-  // Refs + arrows for horizontal scroll (Campaign Thinking row)
+
+  // Refs + scroll arrows
   const scrollRefCampaign = useRef<HTMLDivElement | null>(null);
   const [canScrollLeftCampaign, setCanScrollLeftCampaign] = useState(false);
   const [canScrollRightCampaign, setCanScrollRightCampaign] = useState(false);
-  // Ref for modal scroll control
-  const modalBodyRef = useRef<HTMLDivElement | null>(null);
 
-  // Refs + arrows for horizontal scroll (Short Copies row)
   const scrollRefShort = useRef<HTMLDivElement | null>(null);
   const [canScrollLeftShort, setCanScrollLeftShort] = useState(false);
   const [canScrollRightShort, setCanScrollRightShort] = useState(false);
+
+  const modalBodyRef = useRef<HTMLDivElement | null>(null);
 
   const updateScrollArrows = (
     ref: React.RefObject<HTMLDivElement>,
@@ -273,20 +428,16 @@ const Projects: React.FC = () => {
   ) => {
     const el = ref.current;
     if (!el) return;
-    const cardWidth = 325; // matches homepage spacing
-    const amount = direction === "left" ? -cardWidth : cardWidth;
+    const amount = direction === "left" ? -325 : 325;
     el.scrollBy({ left: amount, behavior: "smooth" });
   };
 
   useEffect(() => {
-    // Campaign Thinking row
     updateScrollArrows(
       scrollRefCampaign,
       setCanScrollLeftCampaign,
       setCanScrollRightCampaign
     );
-
-    // Short Copies row
     updateScrollArrows(
       scrollRefShort,
       setCanScrollLeftShort,
@@ -295,14 +446,19 @@ const Projects: React.FC = () => {
   }, []);
 
   // Modal state
-  // ✅ ONE modal for ALL rows
   const [activeProjectIndex, setActiveProjectIndex] = useState<{
     project: RecruiterProject;
     rowIndex: number;
     rowProjects: RecruiterProject[];
   } | null>(null);
 
-  // Lock background scroll when modal open (same as homepage)
+  const [lightboxState, setLightboxState] = useState<{
+    assets: any[];
+    index: number;
+    projectTitle: string;
+  } | null>(null);
+
+  // Lock background scroll when modal open
   useEffect(() => {
     if (activeProjectIndex?.project) {
       const originalStyle = window.getComputedStyle(document.body).overflow;
@@ -312,6 +468,7 @@ const Projects: React.FC = () => {
       };
     }
   }, [activeProjectIndex?.project]);
+
   // Scroll modal to top when project changes
   useEffect(() => {
     if (activeProjectIndex?.project && modalBodyRef.current) {
@@ -359,7 +516,7 @@ const Projects: React.FC = () => {
                 onClick={() =>
                   setActiveProjectIndex({
                     project,
-                    rowIndex: 0, // Campaign Thinking = row 0
+                    rowIndex: 0,
                     rowProjects: campaignThinkingRow,
                   })
                 }
@@ -369,7 +526,6 @@ const Projects: React.FC = () => {
                   alt={project.title}
                   className="pick-image"
                 />
-                {/* Title always visible + subtitle support (same as homepage) */}
                 <div className="overlay">
                   <div className="overlay-bottom">
                     <div className="pick-label">
@@ -405,11 +561,8 @@ const Projects: React.FC = () => {
             </button>
           )}
         </div>
-
-        {/* Modal (same behavior as homepage) */}
       </div>
 
-      {/* ===================== ROW 2: Short Copies ===================== */}
       {/* ===================== ROW 2: Short Copies ===================== */}
       <div className="projects-row">
         <h2 className="row-title">Short Copies</h2>
@@ -443,7 +596,7 @@ const Projects: React.FC = () => {
                 onClick={() =>
                   setActiveProjectIndex({
                     project,
-                    rowIndex: 1, // Short Copies = row 1
+                    rowIndex: 1,
                     rowProjects: shortCopiesRow,
                   })
                 }
@@ -453,7 +606,6 @@ const Projects: React.FC = () => {
                   alt={project.title}
                   className="pick-image"
                 />
-
                 <div className="overlay">
                   <div className="overlay-bottom">
                     <div className="pick-label">
@@ -505,7 +657,7 @@ const Projects: React.FC = () => {
                 onClick={() =>
                   setActiveProjectIndex({
                     project,
-                    rowIndex: 2, // Big Copy = row 2
+                    rowIndex: 2,
                     rowProjects: bigCopyEnergyRow,
                   })
                 }
@@ -515,7 +667,6 @@ const Projects: React.FC = () => {
                   alt={project.title}
                   className="pick-image"
                 />
-
                 <div className="overlay">
                   <div className="overlay-bottom">
                     <div className="pick-label">
@@ -548,7 +699,6 @@ const Projects: React.FC = () => {
       {SHOW_BETWEEN_CLASSES && (
         <div className="projects-row">
           <h2 className="row-title">Between Classes</h2>
-
           <div className="card-row-wrapper">
             <div className="card-row scrollable-card-row">
               {Array.from({ length: 6 }).map((_, index) => (
@@ -576,7 +726,7 @@ const Projects: React.FC = () => {
                           },
                         ],
                       },
-                      rowIndex: 3, // Between Classes = row 3
+                      rowIndex: 3,
                       rowProjects: Array.from({ length: 6 }).map((_, i) => ({
                         id: `student-${i}`,
                         title: `Between Classes ${i + 1}`,
@@ -599,7 +749,6 @@ const Projects: React.FC = () => {
                   }
                 >
                   <img src="/Postbox.jpg" alt="" className="pick-image" />
-
                   <div className="overlay">
                     <div className="overlay-bottom">
                       <div className="pick-label">
@@ -616,244 +765,263 @@ const Projects: React.FC = () => {
         </div>
       )}
 
-      {/* ✅ ONE shared modal for ALL rows */}
-      {activeProjectIndex && (
-        <div
-          className="project-modal-backdrop"
-          onClick={() => setActiveProjectIndex(null)}
-        >
-          <div
-            className="project-modal"
-            ref={modalBodyRef}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="project-modal-close"
-              onClick={() => setActiveProjectIndex(null)}
-            >
-              &times;
-            </button>
+      {/* ===================== SHARED MODAL ===================== */}
+      {activeProjectIndex &&
+        (() => {
+          const project = activeProjectIndex.project;
+          const assets = project.assets ?? [];
+          const total = activeProjectIndex.rowProjects.length;
+          const currentIndex = activeProjectIndex.rowProjects.findIndex(
+            (p) => p.id === project.id
+          );
+          const prevProject =
+            activeProjectIndex.rowProjects[(currentIndex - 1 + total) % total];
+          const nextProject =
+            activeProjectIndex.rowProjects[(currentIndex + 1) % total];
 
-            <div className="project-modal-hero">
-              <img
-                src={activeProjectIndex?.project.cover}
-                alt={activeProjectIndex?.project.title}
-                className="project-modal-cover"
-              />
-            </div>
+          return (
+            <>
+              {/* LIGHTBOX */}
+              {lightboxState &&
+                (() => {
+                  const currentAsset =
+                    lightboxState.assets[lightboxState.index];
+                  const hasPrev = lightboxState.index > 0;
+                  const hasNext =
+                    lightboxState.index < lightboxState.assets.length - 1;
 
-            <div className="project-modal-body">
-              <h2 className="project-modal-title">
-                {activeProjectIndex?.project.title}
-              </h2>
-
-              {activeProjectIndex?.project.subtitle && (
-                <p className="project-modal-subtitle">
-                  {activeProjectIndex?.project.subtitle}
-                </p>
-              )}
-
-              <p
-                className="project-modal-description"
-                dangerouslySetInnerHTML={{
-                  __html:
-                    activeProjectIndex?.project.shortDescription ||
-                    "Placeholder. We'll add the real work here later.",
-                }}
-              />
-
-              {activeProjectIndex?.project.year && (
-                <p className="project-modal-year">
-                  <span className="project-modal-year-label">Year:</span>{" "}
-                  <span className="project-modal-year-value">
-                    {activeProjectIndex.project.year}
-                  </span>
-                </p>
-              )}
-
-              <div className="project-modal-assets">
-                {(() => {
-                  // ✅ Detect if this row should use slider
-                  const useSlider =
-                    activeProjectIndex?.rowIndex === 1 ||
-                    activeProjectIndex?.rowIndex === 2;
-                  // rowIndex 1 = Short Copies, rowIndex 2 = Big Copy Energy
-
-                  const assets = activeProjectIndex?.project.assets || [];
-
-                  // Slider settings (same as HireMePage2)
-                  const sliderSettings = {
-                    dots: true,
-                    infinite: assets.length > 1,
-                    speed: 500,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    arrows: true,
-                    adaptiveHeight: true,
-                    lazyLoad: "ondemand" as const,
+                  const goPrev = () => {
+                    if (!hasPrev) return;
+                    setLightboxState({
+                      ...lightboxState,
+                      index: lightboxState.index - 1,
+                    });
                   };
 
-                  // Function to render each asset
-                  const renderAsset = (asset: any, i: number) => {
-                    if (asset.type === "image") {
-                      return (
-                        <div key={i} className="project-asset-block">
-                          <img
-                            src={asset.src}
-                            alt={asset.alt || activeProjectIndex?.project.title}
-                            className="project-asset-image"
-                          />
-                          {asset.caption && (
-                            <p className="project-asset-caption">
-                              {asset.caption}
-                            </p>
-                          )}
-                        </div>
-                      );
-                    }
-
-                    if (asset.type === "video") {
-                      return (
-                        <video
-                          key={i}
-                          className="project-asset-video"
-                          src={asset.src}
-                          poster={asset.poster}
-                          controls
-                        />
-                      );
-                    }
-
-                    if (asset.type === "embed") {
-                      const isInstagram = asset.src.includes("instagram.com");
-
-                      if (isInstagram) {
-                        return (
-                          <div
-                            key={i}
-                            className="project-asset-embed instagram-embed"
-                          >
-                            <iframe
-                              src={asset.src}
-                              title={
-                                asset.title || activeProjectIndex?.project.title
-                              }
-                              frameBorder="0"
-                              scrolling="no"
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                            />
-                          </div>
-                        );
-                      }
-
-                      // non‑Instagram embeds (YouTube, Vimeo etc.)
-                      return (
-                        <div key={i} className="project-asset-embed">
-                          <div className="embed-responsive">
-                            <iframe
-                              src={asset.src}
-                              title={
-                                asset.title || activeProjectIndex?.project.title
-                              }
-                              frameBorder="0"
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                            />
-                          </div>
-                        </div>
-                      );
-                    }
-
-                    return null;
+                  const goNext = () => {
+                    if (!hasNext) return;
+                    setLightboxState({
+                      ...lightboxState,
+                      index: lightboxState.index + 1,
+                    });
                   };
 
-                  // ✅ Use SLIDER for Short Copies (rowIndex 1) + Big Copy Energy (rowIndex 2)
-                  if (useSlider && assets.length > 0) {
-                    return (
-                      <Slider
-                        {...sliderSettings}
-                        className="project-modal-slider"
-                      >
-                        {assets.map((asset: any, i: number) =>
-                          renderAsset(asset, i)
-                        )}
-                      </Slider>
-                    );
-                  }
-
-                  // ✅ Use VERTICAL SCROLL for Campaign Thinking (rowIndex 0)
-                  const isBonAppelit =
-                    activeProjectIndex?.project.id === "bon-appeLIT";
                   return (
-                    <>
+                    <div
+                      className="lightbox-backdrop"
+                      onClick={() => setLightboxState(null)}
+                    >
                       <div
-                        className={`project-modal-assets ${
-                          isBonAppelit ? "instagram-grid" : ""
-                        }`}
+                        className="lightbox-inner"
+                        onClick={(e) => e.stopPropagation()}
                       >
-                        {assets.map((asset: any, i: number) =>
-                          renderAsset(asset, i)
+                        <button
+                          className="lightbox-close"
+                          onClick={() => setLightboxState(null)}
+                        >
+                          ✕
+                        </button>
+
+                        {hasPrev && (
+                          <button
+                            className="lightbox-nav lightbox-nav-left"
+                            onClick={goPrev}
+                          >
+                            ‹
+                          </button>
+                        )}
+
+                        {currentAsset.type === "image" && (
+                          <img
+                            src={currentAsset.src}
+                            alt={currentAsset.alt || lightboxState.projectTitle}
+                          />
+                        )}
+
+                        {(currentAsset.type === "embed" ||
+                          currentAsset.type === "video") && (
+                          <div
+                            className={`lightbox-embed${
+                              currentAsset.src?.includes("instagram.com")
+                                ? " instagram-reel"
+                                : ""
+                            }`}
+                          >
+                            {currentAsset.type === "embed" ? (
+                              <iframe
+                                src={currentAsset.src}
+                                title={
+                                  currentAsset.title ||
+                                  lightboxState.projectTitle
+                                }
+                                allow="autoplay; fullscreen; picture-in-picture"
+                                allowFullScreen
+                              />
+                            ) : (
+                              <video
+                                src={currentAsset.src}
+                                controls
+                                autoPlay
+                                style={{ width: "100%", height: "100%" }}
+                              />
+                            )}
+                          </div>
+                        )}
+
+                        {hasNext && (
+                          <button
+                            className="lightbox-nav lightbox-nav-right"
+                            onClick={goNext}
+                          >
+                            ›
+                          </button>
                         )}
                       </div>
-
-                      <p className="project-modal-team">
-                        {activeProjectIndex?.project.team || "—"}
-                      </p>
-
-                      <div className="project-modal-nav">
-                        {(() => {
-                          const total = activeProjectIndex!.rowProjects.length;
-                          const currentIndex =
-                            activeProjectIndex!.rowProjects.findIndex(
-                              (p) => p.id === activeProjectIndex!.project.id
-                            );
-                          const prevIndex = (currentIndex + total - 1) % total;
-                          const nextIndex = (currentIndex + 1) % total;
-                          const prevProject =
-                            activeProjectIndex!.rowProjects[prevIndex];
-                          const nextProject =
-                            activeProjectIndex!.rowProjects[nextIndex];
-
-                          return (
-                            <>
-                              <button
-                                type="button"
-                                className="project-modal-nav-link project-modal-nav-link-prev"
-                                onClick={() =>
-                                  setActiveProjectIndex({
-                                    ...activeProjectIndex!,
-                                    project: prevProject,
-                                  })
-                                }
-                              >
-                                ‹ {prevProject.title}
-                              </button>
-
-                              <button
-                                type="button"
-                                className="project-modal-nav-link project-modal-nav-link-next"
-                                onClick={() =>
-                                  setActiveProjectIndex({
-                                    ...activeProjectIndex!,
-                                    project: nextProject,
-                                  })
-                                }
-                              >
-                                {nextProject.title} ›
-                              </button>
-                            </>
-                          );
-                        })()}
-                      </div>
-                    </>
+                    </div>
                   );
                 })()}
+
+              {/* MODAL BACKDROP */}
+              <div
+                className="project-modal-backdrop"
+                onClick={() => setActiveProjectIndex(null)}
+              >
+                <div
+                  className="project-modal"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Blurred background */}
+                  <div
+                    className="project-modal-bg"
+                    style={{ backgroundImage: `url(${project.cover})` }}
+                  />
+                  {/* Sharp cover image with tint */}
+                  <div
+                    className="project-modal-cover-img"
+                    style={{ backgroundImage: `url(${project.cover})` }}
+                  />
+
+                  {/* Close button */}
+                  <button
+                    className="project-modal-close"
+                    onClick={() => setActiveProjectIndex(null)}
+                  >
+                    ✕
+                  </button>
+
+                  {/* Content */}
+                  <div className="project-modal-content">
+                    {/* LEFT: Info panel */}
+                    <div className="project-modal-info">
+                      <h2 className="project-modal-title">{project.title}</h2>
+                      <p className="project-modal-subtitle">
+                        {project.subtitle}
+                      </p>
+                      <div className="project-modal-divider" />
+                      <p
+                        className="project-modal-description"
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            project.shortDescription ||
+                            "More details coming soon.",
+                        }}
+                      />
+                      {project.team ? (
+                        <p className="project-modal-team">
+                          {formatTeamCredits(project.team)
+                            .split("\n")
+                            .map((line, i) => {
+                              const cleanedLine = line.replace(/\.\s*$/, "");
+                              const colonIndex = cleanedLine.indexOf(":");
+
+                              if (colonIndex === -1) {
+                                return (
+                                  <span
+                                    key={i}
+                                    className="project-modal-team-line"
+                                  >
+                                    {cleanedLine}
+                                  </span>
+                                );
+                              }
+
+                              const label = cleanedLine.slice(
+                                0,
+                                colonIndex + 1
+                              );
+                              const names = cleanedLine
+                                .slice(colonIndex + 1)
+                                .trim();
+
+                              return (
+                                <span
+                                  key={i}
+                                  className="project-modal-team-line"
+                                >
+                                  <span className="project-modal-team-label">
+                                    {label}
+                                  </span>{" "}
+                                  <span className="project-modal-team-names">
+                                    {names}
+                                  </span>
+                                </span>
+                              );
+                            })}
+                        </p>
+                      ) : null}
+                    </div>
+
+                    {/* RIGHT: Coverflow Asset Carousel */}
+                    <div className="project-modal-assets-panel">
+                      <CoverflowCarousel
+                        assets={assets}
+                        projectTitle={project.title}
+                        onExpand={(asset) => {
+                          const assetIndex = assets.findIndex(
+                            (a) => a === asset
+                          );
+                          setLightboxState({
+                            assets,
+                            index: assetIndex,
+                            projectTitle: project.title,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Prev / Next project nav */}
+                  <div className="project-modal-nav">
+                    <button
+                      type="button"
+                      className="project-modal-nav-link project-modal-nav-link-prev"
+                      onClick={() =>
+                        setActiveProjectIndex({
+                          ...activeProjectIndex,
+                          project: prevProject,
+                        })
+                      }
+                    >
+                      ← {prevProject.title}
+                    </button>
+                    <button
+                      type="button"
+                      className="project-modal-nav-link project-modal-nav-link-next"
+                      onClick={() =>
+                        setActiveProjectIndex({
+                          ...activeProjectIndex,
+                          project: nextProject,
+                        })
+                      }
+                    >
+                      {nextProject.title} →
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
+            </>
+          );
+        })()}
     </div>
   );
 };

@@ -143,6 +143,159 @@ const topPicksConfig = {
   ],
 };
 
+// ─── Helper ──────────────────────────────────────────────────────────────────
+function getYouTubeThumbnail(src: string): string | null {
+  const match = src.match(
+    new RegExp("(?:youtube\\.com/embed/|youtu\\.be/)([a-zA-Z0-9_-]{11})")
+  );
+  return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : null;
+}
+
+// ─── Coverflow Carousel ───────────────────────────────────────────────────────
+const CoverflowCarousel: React.FC<{
+  assets: any[];
+  projectTitle: string;
+  onExpand: (asset: any) => void;
+}> = ({ assets, projectTitle, onExpand }) => {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    setActive(0);
+  }, [assets]);
+
+  if (!assets.length) return null;
+
+  const getStyle = (i: number): React.CSSProperties => {
+    const offset = i - active;
+    const absOffset = Math.abs(offset);
+    if (absOffset > 2) return { display: "none" };
+    const rotateY = offset * -45;
+    const translateX = `calc(-50% + ${offset * 220}px)`;
+    const translateZ = absOffset === 0 ? 0 : -180;
+    const scale = absOffset === 0 ? 1 : absOffset === 1 ? 0.78 : 0.58;
+    const brightness = absOffset === 0 ? 1 : absOffset === 1 ? 0.55 : 0.3;
+    const zIndex = 10 - absOffset;
+    return {
+      transform: `translateX(${translateX}) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+      filter: `brightness(${brightness})`,
+      zIndex,
+      cursor: "pointer",
+      transition: "all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+    };
+  };
+
+  const prev = () => setActive((a) => Math.max(0, a - 1));
+  const next = () => setActive((a) => Math.min(assets.length - 1, a + 1));
+
+  return (
+    <div className="coverflow-wrapper">
+      <div className="coverflow-stage">
+        {assets.map((asset: any, i: number) => {
+          const isImage = asset.type === "image";
+          const isVideo = asset.type === "video";
+          const isEmbed = asset.type === "embed";
+          const ytThumb = isEmbed ? getYouTubeThumbnail(asset.src) : null;
+
+          return (
+            <div
+              key={i}
+              className="coverflow-card"
+              style={getStyle(i)}
+              onClick={() => {
+                if (i === active) {
+                  onExpand(asset);
+                } else {
+                  setActive(i);
+                }
+              }}
+            >
+              {isImage && (
+                <img src={asset.src} alt={asset.alt || projectTitle} />
+              )}
+              {isVideo && (
+                <video
+                  src={asset.src}
+                  poster={asset.poster}
+                  muted
+                  playsInline
+                  preload="metadata"
+                />
+              )}
+              {isEmbed && (
+                <div className="coverflow-embed-thumb">
+                  {ytThumb ? (
+                    <>
+                      <img src={ytThumb} alt={asset.title || projectTitle} />
+                      <div className="coverflow-embed-play-icon">
+                        <svg
+                          width="40"
+                          height="40"
+                          viewBox="0 0 24 24"
+                          fill="rgba(255,255,255,0.85)"
+                        >
+                          <path d="M5 3l14 9-14 9V3z" />
+                        </svg>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="coverflow-embed-placeholder">
+                      <svg
+                        width="36"
+                        height="36"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#e50914"
+                        strokeWidth="2"
+                      >
+                        <rect x="2" y="2" width="20" height="20" rx="3" />
+                        <path d="M8 12h8M12 8v8" />
+                      </svg>
+                      <span>{asset.title || "View Post"}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+              {i === active && (
+                <div className="coverflow-expand-hint">click to expand</div>
+              )}
+              {asset.caption && (
+                <div className="coverflow-caption">{asset.caption}</div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="coverflow-controls">
+        <button
+          className="coverflow-btn"
+          onClick={prev}
+          disabled={active === 0}
+        >
+          ‹
+        </button>
+        <div className="coverflow-dots">
+          {assets.map((_: any, i: number) => (
+            <button
+              key={i}
+              className={`coverflow-dot${i === active ? " active" : ""}`}
+              onClick={() => setActive(i)}
+            />
+          ))}
+        </div>
+        <button
+          className="coverflow-btn"
+          onClick={next}
+          disabled={active === assets.length - 1}
+        >
+          ›
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
   const navigate = useNavigate();
   const topPicks = topPicksConfig[profile];
@@ -150,52 +303,48 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
+  const [activeProject, setActiveProject] = useState<{
+    project: (typeof recruiterProjects)[number];
+    index: number;
+  } | null>(null);
+  const [lightboxState, setLightboxState] = useState<{
+    assets: any[];
+    index: number;
+    projectTitle: string;
+  } | null>(null);
   const updateScrollArrows = () => {
     const el = scrollRef.current;
     if (!el) return;
-    const { scrollLeft, scrollWidth, clientWidth } = el;
-    setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
   };
 
   const scrollByAmount = (direction: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    const cardWidth = 325; // approx card width incl. gap
-    const amount = direction === "left" ? -cardWidth : cardWidth;
-    el.scrollBy({ left: amount, behavior: "smooth" });
+    el.scrollBy({
+      left: direction === "left" ? -325 : 325,
+      behavior: "smooth",
+    });
   };
 
   useEffect(() => {
     updateScrollArrows();
   }, []);
 
-  const [selectedProjectIndex, setSelectedProjectIndex] = useState<
-    number | null
-  >(null);
-  const modalRef = useRef<HTMLDivElement | null>(null);
-  const selectedProject =
-    selectedProjectIndex !== null
-      ? recruiterProjects[selectedProjectIndex]
-      : null;
   useEffect(() => {
-    if (selectedProjectIndex !== null) {
-      const originalStyle = window.getComputedStyle(document.body).overflow;
+    if (activeProject) {
+      const orig = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = "hidden";
       return () => {
-        document.body.style.overflow = originalStyle;
+        document.body.style.overflow = orig;
       };
     }
-  }, [selectedProjectIndex]);
-  // Scroll modal to top when project changes
-  useEffect(() => {
-    if (modalRef.current) {
-      modalRef.current.scrollTop = 0;
-    }
-  }, [selectedProjectIndex]);
+  }, [activeProject]);
 
-  // RECRUITER VIEW: Netflix-style row + modal
   if (profile === "Recruiter") {
+    const total = recruiterProjects.length;
+
     return (
       <div className="top-picks-row recruiter-row">
         <h2 className="row-title">Work So Far</h2>
@@ -208,7 +357,6 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
               ‹
             </button>
           )}
-
           <div
             className="card-row scrollable-card-row"
             ref={scrollRef}
@@ -219,7 +367,7 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
                 key={project.id}
                 className="pick-card"
                 style={{ animationDelay: `${index * 0.2}s` }}
-                onClick={() => setSelectedProjectIndex(index)}
+                onClick={() => setActiveProject({ project, index })}
               >
                 <img
                   src={project.thumbnail}
@@ -251,7 +399,6 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
               </div>
             ))}
           </div>
-
           {canScrollRight && (
             <button
               className="scroll-arrow scroll-arrow-right"
@@ -262,196 +409,230 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
           )}
         </div>
 
-        {selectedProject && selectedProjectIndex !== null && (
-          <div
-            className="project-modal-backdrop"
-            onClick={() => setSelectedProjectIndex(null)}
-          >
-            <div
-              className="project-modal"
-              ref={modalRef}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                className="project-modal-close"
-                onClick={() => setSelectedProjectIndex(null)}
-              >
-                ✕
-              </button>
+        {/* MODAL */}
+        {activeProject &&
+          (() => {
+            const project = activeProject.project;
+            const assets = project.assets ?? [];
+            const currentIndex = activeProject.index;
+            const prevProject =
+              recruiterProjects[(currentIndex - 1 + total) % total];
+            const nextProject = recruiterProjects[(currentIndex + 1) % total];
 
-              <div className="project-modal-hero">
-                <img
-                  src={selectedProject.cover}
-                  alt={selectedProject.title}
-                  className="project-modal-cover"
-                />
-              </div>
+            return (
+              <>
+                {/* LIGHTBOX */}
+                {lightboxState &&
+                  (() => {
+                    const currentAsset =
+                      lightboxState.assets[lightboxState.index];
+                    const hasPrev = lightboxState.index > 0;
+                    const hasNext =
+                      lightboxState.index < lightboxState.assets.length - 1;
 
-              <div className="project-modal-body">
-                <h2 className="project-modal-title">{selectedProject.title}</h2>
+                    const goPrev = () => {
+                      if (!hasPrev) return;
+                      setLightboxState({
+                        ...lightboxState,
+                        index: lightboxState.index - 1,
+                      });
+                    };
 
-                {selectedProject.subtitle && (
-                  <p className="project-modal-subtitle">
-                    {selectedProject.subtitle}
-                  </p>
-                )}
-
-                <p
-                  className="project-modal-description"
-                  dangerouslySetInnerHTML={{
-                    __html: selectedProject.shortDescription,
-                  }}
-                />
-
-                {selectedProject.year && (
-                  <p className="project-modal-year">
-                    <span className="project-modal-year-label">Year:</span>{" "}
-                    <span className="project-modal-year-value">
-                      {selectedProject.year}
-                    </span>
-                  </p>
-                )}
-
-                {/* THIS is the block that “handles embed” */}
-                <div
-                  className={
-                    selectedProject.id === "india-craft-week"
-                      ? "project-modal-assets icw-assets-grid"
-                      : "project-modal-assets"
-                  }
-                >
-                  {selectedProject.assets.map((asset, i) => {
-                    if (asset.type === "image") {
-                      const imageElement = (
-                        <img
-                          src={asset.src}
-                          alt={asset.alt || selectedProject.title}
-                          className="project-asset-image"
-                        />
-                      );
-
-                      // If the asset has a `link` (ICW images), make it clickable.
-                      return asset.link ? (
-                        <a
-                          key={i}
-                          href={asset.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {imageElement}
-                        </a>
-                      ) : (
-                        // For all other images (no link), just render the image as before.
-                        <React.Fragment key={i}>{imageElement}</React.Fragment>
-                      );
-                    }
-
-                    if (asset.type === "video") {
-                      return (
-                        <video
-                          key={i}
-                          className="project-asset-video"
-                          src={asset.src}
-                          poster={asset.poster}
-                          controls
-                        />
-                      );
-                    }
-
-                    if (asset.type === "embed") {
-                      // ✅ Check if it's an Instagram embed
-                      const isInstagram = asset.src.includes("instagram.com");
-
-                      if (isInstagram) {
-                        // Instagram-specific rendering
-                        return (
-                          <div
-                            key={i}
-                            className="project-asset-embed instagram-embed"
-                          >
-                            <iframe
-                              src={asset.src}
-                              className="instagram-embed-iframe"
-                              frameBorder="0"
-                              scrolling="no"
-                              allowTransparency={true}
-                              title={asset.title || selectedProject.title}
-                              style={{
-                                width: "100%",
-                                maxWidth: "540px",
-                                height: "800px",
-                                margin: "0 auto",
-                                display: "block",
-                                border: "none",
-                                overflow: "hidden",
-                                borderRadius: "8px",
-                              }}
-                            />
-                          </div>
-                        );
-                      }
-
-                      // ✅ For Vimeo/YouTube (existing behavior - UNCHANGED)
-                      return (
-                        <div key={i} className="project-asset-embed">
-                          <div className="embed-responsive">
-                            <iframe
-                              src={`${asset.src}?title=0&byline=0&portrait=0`}
-                              title={asset.title || selectedProject.title}
-                              frameBorder="0"
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                            />
-                          </div>
-                        </div>
-                      );
-                    }
-
-                    return null;
-                  })}
-                </div>
-
-                <p className="project-modal-team">{selectedProject.team}</p>
-                {/* Modal project navigation */}
-                <div className="project-modal-nav">
-                  {(() => {
-                    const total = recruiterProjects.length;
-                    const prevIndex =
-                      (selectedProjectIndex + total - 1) % total;
-                    const nextIndex = (selectedProjectIndex + 1) % total;
-                    const prevProject = recruiterProjects[prevIndex];
-                    const nextProject = recruiterProjects[nextIndex];
+                    const goNext = () => {
+                      if (!hasNext) return;
+                      setLightboxState({
+                        ...lightboxState,
+                        index: lightboxState.index + 1,
+                      });
+                    };
 
                     return (
-                      <>
-                        <button
-                          type="button"
-                          className="project-modal-nav-link project-modal-nav-link-prev"
-                          onClick={() => setSelectedProjectIndex(prevIndex)}
+                      <div
+                        className="lightbox-backdrop"
+                        onClick={() => setLightboxState(null)}
+                      >
+                        <div
+                          className="lightbox-inner"
+                          onClick={(e) => e.stopPropagation()}
                         >
-                          ‹ {prevProject.title}
-                        </button>
+                          <button
+                            className="lightbox-close"
+                            onClick={() => setLightboxState(null)}
+                          >
+                            ✕
+                          </button>
 
-                        <button
-                          type="button"
-                          className="project-modal-nav-link project-modal-nav-link-next"
-                          onClick={() => setSelectedProjectIndex(nextIndex)}
-                        >
-                          {nextProject.title} ›
-                        </button>
-                      </>
+                          {hasPrev && (
+                            <button
+                              className="lightbox-nav lightbox-nav-left"
+                              onClick={goPrev}
+                            >
+                              ‹
+                            </button>
+                          )}
+
+                          {currentAsset.type === "image" && (
+                            <img
+                              src={currentAsset.src}
+                              alt={
+                                currentAsset.alt || lightboxState.projectTitle
+                              }
+                            />
+                          )}
+
+                          {(currentAsset.type === "embed" ||
+                            currentAsset.type === "video") && (
+                            <div
+                              className={`lightbox-embed${
+                                currentAsset.src?.includes("instagram.com")
+                                  ? " instagram-reel"
+                                  : ""
+                              }`}
+                            >
+                              {currentAsset.type === "embed" ? (
+                                <iframe
+                                  src={currentAsset.src}
+                                  title={
+                                    currentAsset.title ||
+                                    lightboxState.projectTitle
+                                  }
+                                  allow="autoplay; fullscreen; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              ) : (
+                                <video
+                                  src={currentAsset.src}
+                                  controls
+                                  autoPlay
+                                  style={{ width: "100%", height: "100%" }}
+                                />
+                              )}
+                            </div>
+                          )}
+
+                          {hasNext && (
+                            <button
+                              className="lightbox-nav lightbox-nav-right"
+                              onClick={goNext}
+                            >
+                              ›
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     );
                   })()}
+
+                {/* NETFLIX MODAL */}
+                <div
+                  className="project-modal-backdrop"
+                  onClick={() => setActiveProject(null)}
+                >
+                  <div
+                    className="project-modal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div
+                      className="project-modal-bg"
+                      style={{
+                        backgroundImage: `url(${
+                          project.cover || project.thumbnail
+                        })`,
+                      }}
+                    />
+                    <div
+                      className="project-modal-cover-img"
+                      style={{
+                        backgroundImage: `url(${
+                          project.cover || project.thumbnail
+                        })`,
+                      }}
+                    />
+
+                    <button
+                      className="project-modal-close"
+                      onClick={() => setActiveProject(null)}
+                    >
+                      ✕
+                    </button>
+
+                    <div className="project-modal-content">
+                      {/* LEFT */}
+                      <div className="project-modal-info">
+                        <p className="project-modal-subtitle">
+                          {project.subtitle}
+                        </p>
+                        <h2 className="project-modal-title">{project.title}</h2>
+                        <div className="project-modal-divider" />
+                        <p
+                          className="project-modal-description"
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              project.shortDescription ||
+                              "More details coming soon.",
+                          }}
+                        />
+                        {project.team && (
+                          <p className="project-modal-team">{project.team}</p>
+                        )}
+                      </div>
+
+                      {/* RIGHT — Coverflow */}
+                      <div className="project-modal-assets-panel">
+                        <CoverflowCarousel
+                          assets={assets}
+                          projectTitle={project.title}
+                          onExpand={(asset) => {
+                            const assetIndex = assets.findIndex(
+                              (a) => a === asset
+                            );
+                            setLightboxState({
+                              assets,
+                              index: assetIndex,
+                              projectTitle: project.title,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Prev / Next */}
+                    <div className="project-modal-nav">
+                      <button
+                        type="button"
+                        className="project-modal-nav-link project-modal-nav-link-prev"
+                        onClick={() =>
+                          setActiveProject({
+                            project: prevProject,
+                            index: (currentIndex - 1 + total) % total,
+                          })
+                        }
+                      >
+                        ← {prevProject.title}
+                      </button>
+                      <button
+                        type="button"
+                        className="project-modal-nav-link project-modal-nav-link-next"
+                        onClick={() =>
+                          setActiveProject({
+                            project: nextProject,
+                            index: (currentIndex + 1) % total,
+                          })
+                        }
+                      >
+                        {nextProject.title} →
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        )}
+              </>
+            );
+          })()}
       </div>
     );
   }
 
-  // OTHER PROFILES: keep old behaviour
+  // Other profiles — unchanged
   return (
     <div className="top-picks-row">
       <h2 className="row-title">{`Today's Top Picks for ${profile}`}</h2>

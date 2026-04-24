@@ -1,7 +1,16 @@
 export type ProjectAsset =
   | { type: "image"; src: string; alt?: string; caption?: string }
   | { type: "video"; src: string; poster?: string }
-  | { type: "embed"; src: string; title?: string };
+  | {
+      type: "embed";
+      src: string;
+      title?: string;
+      /** Optional thumbnail shown on the asset card.
+       *  YouTube:  https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg
+       *  Vimeo:    save a still to /public and use "/my-thumb.jpg"
+       */
+      thumbnail?: string;
+    };
 
 export type ProjectsPageCategory =
   | "campaign-thinking"
