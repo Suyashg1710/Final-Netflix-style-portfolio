@@ -150,7 +150,10 @@ function getYouTubeThumbnail(src: string): string | null {
   );
   return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : null;
 }
-
+function formatTeamCredits(team?: string) {
+  if (!team) return "";
+  return team.replace(/\s+Art Directors:/g, "\nArt Directors:");
+}
 // ─── Coverflow Carousel ───────────────────────────────────────────────────────
 const CoverflowCarousel: React.FC<{
   assets: any[];
@@ -573,7 +576,9 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
                           }}
                         />
                         {project.team && (
-                          <p className="project-modal-team">{project.team}</p>
+                          <p className="project-modal-team">
+                            {formatTeamCredits(project.team)}
+                          </p>
                         )}
                       </div>
 
