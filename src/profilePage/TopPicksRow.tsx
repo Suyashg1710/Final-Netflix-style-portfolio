@@ -422,98 +422,106 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
             return (
               <>
                 {/* LIGHTBOX */}
-                {lightboxState && (() => {
-  const currentAsset = lightboxState.assets[lightboxState.index];
-  const hasPrev = lightboxState.index > 0;
-  const hasNext = lightboxState.index < lightboxState.assets.length - 1;
+                {lightboxState &&
+                  (() => {
+                    const currentAsset =
+                      lightboxState.assets[lightboxState.index];
+                    const hasPrev = lightboxState.index > 0;
+                    const hasNext =
+                      lightboxState.index < lightboxState.assets.length - 1;
 
-  const goPrev = () => {
-    if (!hasPrev) return;
-    setLightboxState({
-      ...lightboxState,
-      index: lightboxState.index - 1,
-    });
-  };
+                    const goPrev = () => {
+                      if (!hasPrev) return;
+                      setLightboxState({
+                        ...lightboxState,
+                        index: lightboxState.index - 1,
+                      });
+                    };
 
-  const goNext = () => {
-    if (!hasNext) return;
-    setLightboxState({
-      ...lightboxState,
-      index: lightboxState.index + 1,
-    });
-  };
+                    const goNext = () => {
+                      if (!hasNext) return;
+                      setLightboxState({
+                        ...lightboxState,
+                        index: lightboxState.index + 1,
+                      });
+                    };
 
-  return (
-    <div
-      className="lightbox-backdrop"
-      onClick={() => setLightboxState(null)}
-    >
-      <div
-        className="lightbox-inner"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="lightbox-close"
-          onClick={() => setLightboxState(null)}
-        >
-          ✕
-        </button>
+                    return (
+                      <div
+                        className="lightbox-backdrop"
+                        onClick={() => setLightboxState(null)}
+                      >
+                        <div
+                          className="lightbox-inner"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <button
+                            className="lightbox-close"
+                            onClick={() => setLightboxState(null)}
+                          >
+                            ✕
+                          </button>
 
-        {hasPrev && (
-          <button
-            className="lightbox-nav lightbox-nav-left"
-            onClick={goPrev}
-          >
-            ‹
-          </button>
-        )}
+                          {hasPrev && (
+                            <button
+                              className="lightbox-nav lightbox-nav-left"
+                              onClick={goPrev}
+                            >
+                              ‹
+                            </button>
+                          )}
 
-        {currentAsset.type === "image" && (
-          <img
-            src={currentAsset.src}
-            alt={currentAsset.alt || lightboxState.projectTitle}
-          />
-        )}
+                          {currentAsset.type === "image" && (
+                            <img
+                              src={currentAsset.src}
+                              alt={
+                                currentAsset.alt || lightboxState.projectTitle
+                              }
+                            />
+                          )}
 
-        {(currentAsset.type === "embed" ||
-          currentAsset.type === "video") && (
-          <div
-            className={`lightbox-embed${
-              currentAsset.src?.includes("instagram.com")
-                ? " instagram-reel"
-                : ""
-            }`}
-          >
-            {currentAsset.type === "embed" ? (
-              <iframe
-                src={currentAsset.src}
-                title={currentAsset.title || lightboxState.projectTitle}
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <video
-                src={currentAsset.src}
-                controls
-                autoPlay
-                style={{ width: "100%", height: "100%" }}
-              />
-            )}
-          </div>
-        )}
+                          {(currentAsset.type === "embed" ||
+                            currentAsset.type === "video") && (
+                            <div
+                              className={`lightbox-embed${
+                                currentAsset.src?.includes("instagram.com")
+                                  ? " instagram-reel"
+                                  : ""
+                              }`}
+                            >
+                              {currentAsset.type === "embed" ? (
+                                <iframe
+                                  src={currentAsset.src}
+                                  title={
+                                    currentAsset.title ||
+                                    lightboxState.projectTitle
+                                  }
+                                  allow="autoplay; fullscreen; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              ) : (
+                                <video
+                                  src={currentAsset.src}
+                                  controls
+                                  autoPlay
+                                  style={{ width: "100%", height: "100%" }}
+                                />
+                              )}
+                            </div>
+                          )}
 
-        {hasNext && (
-          <button
-            className="lightbox-nav lightbox-nav-right"
-            onClick={goNext}
-          >
-            ›
-          </button>
-        )}
-      </div>
-    </div>
-  );
-})()}
+                          {hasNext && (
+                            <button
+                              className="lightbox-nav lightbox-nav-right"
+                              onClick={goNext}
+                            >
+                              ›
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
 
                 {/* NETFLIX MODAL */}
                 <div
@@ -524,14 +532,22 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
                     className="project-modal"
                     onClick={(e) => e.stopPropagation()}
                   >
-                   <div
-  className="project-modal-bg"
-  style={{ backgroundImage: `url(${project.cover || project.thumbnail})` }}
-/>
-<div
-  className="project-modal-cover-img"
-  style={{ backgroundImage: `url(${project.cover || project.thumbnail})` }}
-/>
+                    <div
+                      className="project-modal-bg"
+                      style={{
+                        backgroundImage: `url(${
+                          project.cover || project.thumbnail
+                        })`,
+                      }}
+                    />
+                    <div
+                      className="project-modal-cover-img"
+                      style={{
+                        backgroundImage: `url(${
+                          project.cover || project.thumbnail
+                        })`,
+                      }}
+                    />
 
                     <button
                       className="project-modal-close"
@@ -563,18 +579,20 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
 
                       {/* RIGHT — Coverflow */}
                       <div className="project-modal-assets-panel">
-                      <CoverflowCarousel
-  assets={assets}
-  projectTitle={project.title}
-  onExpand={(asset) => {
-    const assetIndex = assets.findIndex((a) => a === asset);
-    setLightboxState({
-      assets,
-      index: assetIndex,
-      projectTitle: project.title,
-    });
-  }}
-/>
+                        <CoverflowCarousel
+                          assets={assets}
+                          projectTitle={project.title}
+                          onExpand={(asset) => {
+                            const assetIndex = assets.findIndex(
+                              (a) => a === asset
+                            );
+                            setLightboxState({
+                              assets,
+                              index: assetIndex,
+                              projectTitle: project.title,
+                            });
+                          }}
+                        />
                       </div>
                     </div>
 
@@ -617,7 +635,7 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
   // Other profiles — unchanged
   return (
     <div className="top-picks-row">
-      <h2 className="row-title">{`Today\'s Top Picks for ${profile}`}</h2>
+      <h2 className="row-title">{`Today's Top Picks for ${profile}`}</h2>
       <div className="card-row">
         {topPicks.map((pick, index) => (
           <div

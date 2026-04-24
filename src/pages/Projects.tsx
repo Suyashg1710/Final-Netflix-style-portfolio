@@ -6,14 +6,6 @@ import { recruiterProjects } from "../profilePage/projectData";
 
 type RecruiterProject = (typeof recruiterProjects)[number];
 
-// Helper: extract YouTube video ID from an embed URL
-function getYouTubeThumbnail(src: string): string | null {
-  const match = src.match(
-    /(?:youtube\.com\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/
-  );
-  return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : null;
-}
-
 function formatTeamCredits(team?: string): string {
   if (!team) return "";
 
