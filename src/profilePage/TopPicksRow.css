@@ -337,6 +337,8 @@
   font-size: 0.82rem;
   color: #777;
   font-style: italic;
+  white-space: pre-line;
+  line-height: 1.5;
 }
 
 .project-modal-nav {
