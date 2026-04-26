@@ -11,11 +11,11 @@ export type ProjectAsset =
       type: "embed";
       src: string;
       title?: string;
+      thumbnail?: string;
       /** Optional thumbnail shown on the asset card.
        *  YouTube:  https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg
        *  Vimeo:    save a still to /public and use "/my-thumb.jpg"
        */
-      thumbnail?: string;
     };
 
 export type RecruiterProject = {
@@ -104,7 +104,7 @@ export const recruiterProjects: RecruiterProject[] = [
         type: "embed",
         src: "https://player.vimeo.com/video/1075125603?h=9a7bc37fa4",
         title: "Cerave case study",
-        thumbnail: "Cerave.png",
+        thumbnail: "/Cerave.png",
         // Vimeo: save a still to /public as cerave-thumb.jpg and use:
         // thumbnail: "/cerave-thumb.jpg",
         // Until then, the placeholder card will show.

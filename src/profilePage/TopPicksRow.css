@@ -123,6 +123,9 @@
 }
 
 .pick-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: #fff;
   font-size: 0.8rem;
   font-weight: 600;
@@ -141,12 +144,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.pick-label {
-  display: block;
-  font-size: 0.7rem;
-  color: inherit;
 }
 
 .pick-label:hover {

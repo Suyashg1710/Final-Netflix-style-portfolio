@@ -19,3 +19,12 @@ h1 {
     padding-bottom: 5rem;
   }
 }
+
+.bio-link {
+  color: #e50914;
+  text-decoration: underline;
+}
+
+.bio-link:hover {
+  color: #ff4c4c;
+}

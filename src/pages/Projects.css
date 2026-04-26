@@ -652,3 +652,12 @@ PROJECTS PAGE — Base Layout
   justify-content: center;
   pointer-events: none;
 }
+
+.project-modal-description a {
+  color: #e50914;
+  text-decoration: underline;
+}
+
+.project-modal-description a:hover {
+  color: #ff4c4c;
+}
