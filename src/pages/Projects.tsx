@@ -174,9 +174,8 @@ const Projects: React.FC = () => {
   const campaignThinkingRow: RecruiterProject[] = [
     {
       id: "bon-appeLIT",
-      title: "Bon AppeLIT",
-      subtitle: "Lipton Ice Tea",
-      multiLineLabel: true,
+      title: "Lipton Ice Tea — Bon AppeLIT",
+      multiLineLabel: false,
       thumbnail: "/BonAppelit.png",
       cover: "/LiptonCover.jpg",
       shortDescription:
@@ -479,8 +478,7 @@ const Projects: React.FC = () => {
   return (
     <div className="projects-page">
       <div className="projects-page-header">
-        <h1>More projects, in all shapes and sizes</h1>
-        <p>Miscellaneous work from my career so far</p>
+        <h1>Work - A Broader Picture</h1>
       </div>
 
       {/* ===================== ROW 1: Campaign Thinking ===================== */}

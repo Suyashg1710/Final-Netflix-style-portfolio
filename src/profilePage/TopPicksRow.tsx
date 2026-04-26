@@ -150,9 +150,12 @@ function getYouTubeThumbnail(src: string): string | null {
   );
   return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : null;
 }
-function formatTeamCredits(team?: string) {
+function formatTeamCredits(team?: string): string {
   if (!team) return "";
-  return team.replace(/\s+Art Directors:/g, "\nArt Directors:");
+
+  return team
+    .replace(/\s+Art Directors?:/gi, "\nArt Directors:")
+    .replace(/\s+Art Director:/gi, "\nArt Director:");
 }
 // ─── Coverflow Carousel ───────────────────────────────────────────────────────
 const CoverflowCarousel: React.FC<{
@@ -197,8 +200,9 @@ const CoverflowCarousel: React.FC<{
           const isImage = asset.type === "image";
           const isVideo = asset.type === "video";
           const isEmbed = asset.type === "embed";
-          const ytThumb = isEmbed ? getYouTubeThumbnail(asset.src) : null;
-
+          const embedThumb = isEmbed
+            ? asset.thumbnail || getYouTubeThumbnail(asset.src)
+            : null;
           return (
             <div
               key={i}
@@ -226,9 +230,9 @@ const CoverflowCarousel: React.FC<{
               )}
               {isEmbed && (
                 <div className="coverflow-embed-thumb">
-                  {ytThumb ? (
+                  {embedThumb ? (
                     <>
-                      <img src={ytThumb} alt={asset.title || projectTitle} />
+                      <img src={embedThumb} alt={asset.title || projectTitle} />
                       <div className="coverflow-embed-play-icon">
                         <svg
                           width="40"
@@ -350,7 +354,7 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
 
     return (
       <div className="top-picks-row recruiter-row">
-        <h2 className="row-title">Work So Far</h2>
+        <h2 className="row-title">Top Picks for Recruiter</h2>
         <div className="card-row-wrapper">
           {canScrollLeft && (
             <button
@@ -562,10 +566,10 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
                     <div className="project-modal-content">
                       {/* LEFT */}
                       <div className="project-modal-info">
+                        <h2 className="project-modal-title">{project.title}</h2>
                         <p className="project-modal-subtitle">
                           {project.subtitle}
                         </p>
-                        <h2 className="project-modal-title">{project.title}</h2>
                         <div className="project-modal-divider" />
                         <p
                           className="project-modal-description"
@@ -575,11 +579,49 @@ const TopPicksRow: React.FC<TopPicksRowProps> = ({ profile }) => {
                               "More details coming soon.",
                           }}
                         />
-                        {project.team && (
+                        {project.team ? (
                           <p className="project-modal-team">
-                            {formatTeamCredits(project.team)}
+                            {formatTeamCredits(project.team)
+                              .split("\n")
+                              .map((line, i) => {
+                                const cleanedLine = line.replace(/\.\s*$/, "");
+                                const colonIndex = cleanedLine.indexOf(":");
+
+                                if (colonIndex === -1) {
+                                  return (
+                                    <span
+                                      key={i}
+                                      className="project-modal-team-line"
+                                    >
+                                      {cleanedLine}
+                                    </span>
+                                  );
+                                }
+
+                                const label = cleanedLine.slice(
+                                  0,
+                                  colonIndex + 1
+                                );
+                                const names = cleanedLine
+                                  .slice(colonIndex + 1)
+                                  .trim();
+
+                                return (
+                                  <span
+                                    key={i}
+                                    className="project-modal-team-line"
+                                  >
+                                    <span className="project-modal-team-label">
+                                      {label}
+                                    </span>{" "}
+                                    <span className="project-modal-team-names">
+                                      {names}
+                                    </span>
+                                  </span>
+                                );
+                              })}
                           </p>
-                        )}
+                        ) : null}
                       </div>
 
                       {/* RIGHT — Coverflow */}
