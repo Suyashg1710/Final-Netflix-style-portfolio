@@ -123,3 +123,78 @@
   object-fit: cover; /* Netflix magic */
   z-index: 0;
 }
+
+.banner-awards {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.banner-award {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.banner-laurel-stem {
+  stroke: #e50914;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.banner-laurel-leaf {
+  fill: #e50914;
+}
+
+.banner-award-laurel-flip {
+  transform: scaleX(-1);
+}
+
+.banner-award-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 6px;
+}
+
+.banner-award-kicker {
+  font-size: 0.48rem;
+  font-weight: normal;
+  color: #ccc;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.banner-award-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #f2f2f4;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.banner-award-title-small {
+  font-size: 0.78rem;
+}
+
+.banner-award-title-tiny {
+  font-size: 0.62rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.banner-award-sub {
+  font-size: 0.42rem;
+  font-weight: normal;
+  color: #999;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  white-space: nowrap;
+}
