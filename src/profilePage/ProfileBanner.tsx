@@ -53,6 +53,69 @@ const ProfileBanner: React.FC = () => {
             <strong>Born an original, living as a copy.</strong>
           </span>
         </h1>
+
+        <div className="banner-awards">
+          <div className="banner-award">
+            <svg className="banner-award-laurel" viewBox="0 0 60 118" width="20" height="38">
+              <path className="banner-laurel-stem" d="M22,116 C6,104 -2,78 4,56 C8,36 18,18 30,4" />
+              <path className="banner-laurel-leaf" transform="translate(24,106) rotate(-80)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(12,92) rotate(-55)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(4,74) rotate(-25)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(2,54) rotate(5)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(6,34) rotate(35)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(16,16) rotate(60)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(28,2) rotate(80)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" d="M20,112 C28,118 34,116 30,108 C27,102 20,104 21,110 Z" />
+            </svg>
+                        <div className="banner-award-text">
+              <div className="banner-award-kicker">Featured Winner</div>
+              <div className="banner-award-title banner-award-title-tiny">D&amp;AD New Blood<br />The Portfolios Competition</div>
+              <div className="banner-award-sub">Top 7 Globally &middot; 2026</div>
+            </div>
+            <svg className="banner-award-laurel banner-award-laurel-flip" viewBox="0 0 60 118" width="20" height="38">
+              <path className="banner-laurel-stem" d="M22,116 C6,104 -2,78 4,56 C8,36 18,18 30,4" />
+              <path className="banner-laurel-leaf" transform="translate(24,106) rotate(-80)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(12,92) rotate(-55)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(4,74) rotate(-25)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(2,54) rotate(5)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(6,34) rotate(35)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(16,16) rotate(60)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(28,2) rotate(80)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" d="M20,112 C28,118 34,116 30,108 C27,102 20,104 21,110 Z" />
+            </svg>
+          </div>
+
+          <div className="banner-award">
+            <svg className="banner-award-laurel" viewBox="0 0 60 118" width="20" height="38">
+              <path className="banner-laurel-stem" d="M22,116 C6,104 -2,78 4,56 C8,36 18,18 30,4" />
+              <path className="banner-laurel-leaf" transform="translate(24,106) rotate(-80)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(12,92) rotate(-55)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(4,74) rotate(-25)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(2,54) rotate(5)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(6,34) rotate(35)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(16,16) rotate(60)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(28,2) rotate(80)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" d="M20,112 C28,118 34,116 30,108 C27,102 20,104 21,110 Z" />
+            </svg>
+            <div className="banner-award-text">
+              <div className="banner-award-kicker">Cannes Lions</div>
+              <div className="banner-award-title banner-award-title-small">FUTURE LIONS</div>
+              <div className="banner-award-sub">Shortlist &middot; 2025</div>
+            </div>
+            <svg className="banner-award-laurel banner-award-laurel-flip" viewBox="0 0 60 118" width="20" height="38">
+              <path className="banner-laurel-stem" d="M22,116 C6,104 -2,78 4,56 C8,36 18,18 30,4" />
+              <path className="banner-laurel-leaf" transform="translate(24,106) rotate(-80)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(12,92) rotate(-55)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(4,74) rotate(-25)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(2,54) rotate(5)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(6,34) rotate(35)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(16,16) rotate(60)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" transform="translate(28,2) rotate(80)" d="M0,-7 C4,-5 4,5 0,9 C-4,5 -4,-5 0,-7 Z" />
+              <path className="banner-laurel-leaf" d="M20,112 C28,118 34,116 30,108 C27,102 20,104 21,110 Z" />
+            </svg>
+          </div>
+        </div>
+
         <p className="banner-description">
           Suyash is a creative currently having fun in Berlin.
           <br />
