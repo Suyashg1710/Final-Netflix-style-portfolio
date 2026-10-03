@@ -32,7 +32,7 @@ const continueWatchingConfig: Record<ProfileType, Tile[]> = {
       title: "Resume",
       imgSrc: "/Resume.jpg",
       externalUrl:
-        "https://drive.google.com/file/d/1vQnqSo8qKVp1UjqqRkgiPLrjGitau4pL/view?usp=sharing",
+        "https://drive.google.com/file/d/1tPZIcoBmd3tBpY__UHfDbMLRIXE_7tSE/view?usp=sharing",
     },
     {
       title: "About me",
@@ -46,7 +46,7 @@ const continueWatchingConfig: Record<ProfileType, Tile[]> = {
       title: "Resume",
       imgSrc: "/Resume.jpg",
       externalUrl:
-        "https://drive.google.com/file/d/1vQnqSo8qKVp1UjqqRkgiPLrjGitau4pL/view?usp=sharing",
+        "https://drive.google.com/file/d/1tPZIcoBmd3tBpY__UHfDbMLRIXE_7tSE/view?usp=sharing",
     },
     {
       title: "About me",
