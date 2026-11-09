@@ -18,7 +18,7 @@ export interface WorkPermit {
 
 export interface TimelineItem {
   seq: number;
-  timelineType: "work" | "education" | "school";
+  timelineType: "work" | "education" | "school" | "award";
   name: string;
   title: string;
   summaryPoints: string;
