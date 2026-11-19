@@ -56,7 +56,7 @@ export const recruiterProjects: RecruiterProject[] = [
         src: "https://www.youtube.com/embed/MN8CBcJKtuE?si=gnziXKSFbInrMRXG",
         title: "Postbox ID – Case Study Film (Future Lions 2025 Shortlist)",
         // YouTube thumbnail — replace EDtQFdFz76k with the actual video ID if different
-        thumbnail: "https://img.youtube.com/vi/EDtQFdFz76k/hqdefault.jpg",
+        thumbnail: "https://img.youtube.com/vi/MN8CBcJKtuE/hqdefault.jpg",
       },
       {
         type: "image",
