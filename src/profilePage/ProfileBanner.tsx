@@ -42,7 +42,7 @@ const ProfileBanner: React.FC = () => {
         playsInline
         preload="auto"
       >
-        <source src="/Herotrailer4.mp4" type="video/mp4" />
+        <source src="/herotrailer4.mp4" type="video/mp4" />
       </video>
       {/* CONTENT */}
       <div className="banner-content">
